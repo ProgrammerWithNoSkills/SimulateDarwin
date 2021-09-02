@@ -2,11 +2,11 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI : MonoBehaviour
+public class PathfindingAI : MonoBehaviour
 {
     public NavMeshAgent agent;
 
-    public Transform player;
+    public Transform target;
 
     public LayerMask whatIsGround, whatIsPlayer;
 
@@ -17,21 +17,21 @@ public class EnemyAI : MonoBehaviour
 
     //States
     public float sightRange;
-    public bool playerInSightRange;
+    public bool targetInSightRange;
 
     private void Awake()
     {
-        player = GameObject.Find("Player").transform;
+        target = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
         //Check for sight range
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+        targetInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
 
-        if (!playerInSightRange) Patroling();
-        if (playerInSightRange) ChasePlayer();
+        if (!targetInSightRange) Patroling();
+        if (targetInSightRange) ChasePlayer();
     }
 
     private void Patroling()
@@ -61,6 +61,9 @@ public class EnemyAI : MonoBehaviour
 
     private void ChasePlayer()
     {
-        agent.SetDestination(player.position);
+        if (target)
+        {
+            agent.SetDestination(target.position);
+        }
     }
 }
