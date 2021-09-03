@@ -20,7 +20,7 @@ public class PathfindingAI : MonoBehaviour
 
     private void Awake()
     {
-        m_target = GameObject.Find("Player").transform;
+        m_target = GameObject.Find("Food").transform;
         m_agent = GetComponent<NavMeshAgent>();
     }
 
