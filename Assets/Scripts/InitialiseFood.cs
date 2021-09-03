@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class InitialiseFood : MonoBehaviour
 {
-    public GameObject food;
+    public GameObject foodPrefab;
 
     void Start()
     {
-        Instantiate(food, new Vector3(8, 1, 8), Quaternion.identity);
+        Instantiate(foodPrefab, new Vector3(8, 1, 8), Quaternion.identity);
     }
 }
