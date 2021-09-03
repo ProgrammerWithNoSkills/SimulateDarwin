@@ -5,15 +5,59 @@ using TMPro;
 
 public class DayManager : MonoBehaviour
 {
-    private TMP_Text textComponent;
+    private static TMP_Text m_textComponent;
+    private static int m_dayCount;
+
+    private static bool m_simStarted = false;
+    private static bool m_dayEnded = false;
+
     void Awake()
     {
-        textComponent = GetComponent<TMP_Text>();
-        Debug.Log(textComponent.text);
+        m_textComponent = GetComponent<TMP_Text>();
+        m_dayCount = 0;
     }
 
-    void Update()
+    private void Update()
     {
-        
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (m_simStarted == false)
+            {
+                BeginSim();
+            }
+            else if (m_dayEnded == false)
+            {
+                EndDay();
+            }
+            else
+            {
+                BeginNextDay();
+            }
+        }
+
+    }
+
+    public void BeginSim()
+    {
+        m_dayCount = 1;
+        m_textComponent.text = $" Day {m_dayCount}";
+        m_simStarted = true;
+    }
+
+    public bool EndDay()
+    {
+        m_dayCount += 1;
+        m_textComponent.text = $" Day {m_dayCount}";
+        m_dayEnded = true;
+        return true;
+    }
+
+    public bool BeginNextDay()
+    {
+        m_dayCount += 1;
+        m_textComponent.text = $" Day {m_dayCount}";
+        m_dayEnded = false;
+        return true;
     }
 }
