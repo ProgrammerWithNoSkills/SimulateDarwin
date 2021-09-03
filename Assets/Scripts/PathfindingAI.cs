@@ -1,12 +1,11 @@
-
 using UnityEngine;
 using UnityEngine.AI;
 
 public class PathfindingAI : MonoBehaviour
 {
-    public NavMeshAgent agent;
+    private NavMeshAgent m_agent;
 
-    public Transform target;
+    public Transform m_target;
 
     public LayerMask whatIsGround, whatIsPlayer;
 
@@ -21,8 +20,8 @@ public class PathfindingAI : MonoBehaviour
 
     private void Awake()
     {
-        target = GameObject.Find("Player").transform;
-        agent = GetComponent<NavMeshAgent>();
+        m_target = GameObject.Find("Player").transform;
+        m_agent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
@@ -39,7 +38,7 @@ public class PathfindingAI : MonoBehaviour
         if (!walkPointSet) SearchWalkPoint();
 
         if (walkPointSet)
-            agent.SetDestination(walkPoint);
+            m_agent.SetDestination(walkPoint);
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
@@ -61,9 +60,9 @@ public class PathfindingAI : MonoBehaviour
 
     private void ChasePlayer()
     {
-        if (target)
+        if (m_target)
         {
-            agent.SetDestination(target.position);
+            m_agent.SetDestination(m_target.position);
         }
     }
 }

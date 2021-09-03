@@ -9,11 +9,11 @@ public class CameraController : MonoBehaviour
     public float sensY;
 
     [Header("Clamping")]
-    public float minY;
-    public float maxY;
+    public float minY = -90f;
+    public float maxY = 90f;
 
     [Header("Spectator")]
-    public float moveSpeed;
+    public float moveSpeed = 10f;
 
     private float rotX;
     private float rotY;
@@ -38,9 +38,9 @@ public class CameraController : MonoBehaviour
         float y = 0;
 
         if (Input.GetKey(KeyCode.E))
-            y = 1;
+            y = 1 * moveSpeed * 0.2f;
         else if (Input.GetKey(KeyCode.Q))
-            y = -1;
+            y = -1 * moveSpeed * 0.2f;
 
         Vector3 dir = transform.right * x + transform.up * y + transform.forward * z;
         transform.position += dir * moveSpeed * Time.deltaTime;
