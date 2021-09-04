@@ -21,7 +21,7 @@ public class PathfindingAI : MonoBehaviour
     private void Awake()
     {
         m_target = GameObject.FindWithTag("Food").transform;
-        Debug.Log(m_target.position);
+        //Debug.Log(m_target.position);
         m_agent = GetComponent<NavMeshAgent>();
     }
 
