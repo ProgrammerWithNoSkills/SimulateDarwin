@@ -46,7 +46,7 @@ public class Spawning : MonoBehaviour
 
     void ChangeMaterialColour(MeshRenderer renderComponent)
     {
-        Color color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
+        Color color = new Color(Random.Range(0f, 0.1f), Random.Range(0.3f, 1f), Random.Range(0f, 0.1f), Random.Range(0.3f, 1f));
         renderComponent.material.color = color;
     }
     /*--------------------------------------------------*/
