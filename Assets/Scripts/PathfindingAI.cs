@@ -82,16 +82,16 @@ public class PathfindingAI : MonoBehaviour
         GameObject closest = null;
         Vector3 position = transform.position;
 
-        float distance = Mathf.Infinity; //Field of View!!!!
+        float viewDistance = Mathf.Infinity; //Field of View!!!!
 
         foreach (GameObject food in foods)
         {
             Vector3 diff = food.transform.position - position;
             float curDistance = diff.sqrMagnitude;
-            if (curDistance < distance)
+            if (curDistance < viewDistance)
             {
                 closest = food;
-                distance = curDistance;
+                viewDistance = curDistance;
             }
         }
         return closest;
