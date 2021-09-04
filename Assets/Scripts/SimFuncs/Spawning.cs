@@ -13,18 +13,18 @@ public class Spawning : MonoBehaviour
 
     void Start()
     {
-        m_Creature = GameObject.FindWithTag("Creature");
-        m_Food = GameObject.FindWithTag("Food");
+        m_Creature = Resources.Load("Prefabs/Creature") as GameObject;
+        m_Food = Resources.Load("Prefabs/Food") as GameObject;
 
         Instantiate(m_Food, new Vector3(0, 0, 0), Quaternion.identity);
 
         //test spawning
         if (m_Creature)
         {
-            SpawnAlongXLine(4, 25f, 25f);
-            SpawnAlongNegXLine(4, 25f, 25f);
-            SpawnAlongZLine(4, 25f, 25f);
-            SpawnAlongNegZLine(6, 25f, 25f);
+            SpawnAlongXLine(1, 25f, 25f);
+            SpawnAlongNegXLine(1, 25f, 25f);
+            SpawnAlongZLine(1, 25f, 25f);
+            SpawnAlongNegZLine(1, 25f, 25f);
         }
 
 
@@ -35,16 +35,19 @@ public class Spawning : MonoBehaviour
         
     }
 
-    public void EndOfDayClearCreatures()
+    void SpawnFood(int numToSpawn, Vector3 spawnArea)
     {
-        
+        for (int i = 1; i <= numToSpawn; i++)
+        {
+
+        }
     }
 
     //Spawn Funcs
     //Eulers to be corrected when creature models complete
     //1f y value because we're spawning on a plane and want the creatures to fall down onto it.
     /*--------------------------------------------------*/
-    public void SpawnAlongXLine(int numToSpawn, float xBound, float zBound)
+    void SpawnAlongXLine(int numToSpawn, float xBound, float zBound)
     {
         for (int i = 1; i <= numToSpawn; i++)
         {
@@ -53,7 +56,7 @@ public class Spawning : MonoBehaviour
             Instantiate(m_Creature, spawnLoc, Quaternion.Euler(0, 0, 90));
         }
     }
-    public void SpawnAlongNegXLine(int numToSpawn, float xBound, float zBound)
+    void SpawnAlongNegXLine(int numToSpawn, float xBound, float zBound)
     {
         for (int i = 1; i <= numToSpawn; i++)
         {
@@ -62,7 +65,7 @@ public class Spawning : MonoBehaviour
             Instantiate(m_Creature, spawnLoc, Quaternion.Euler(0, 0, 90));
         }
     }
-    public void SpawnAlongZLine(int numToSpawn, float xBound, float zBound)
+    void SpawnAlongZLine(int numToSpawn, float xBound, float zBound)
     {
         for (int i = 1; i <= numToSpawn; i++)
         {
@@ -71,7 +74,7 @@ public class Spawning : MonoBehaviour
             Instantiate(m_Creature, spawnLoc, Quaternion.Euler(0, 0, 90));
         }
     }
-    public void SpawnAlongNegZLine(int numToSpawn, float xBound, float zBound)
+    void SpawnAlongNegZLine(int numToSpawn, float xBound, float zBound)
     {
         for (int i = 1; i <= numToSpawn; i++)
         {
@@ -82,4 +85,9 @@ public class Spawning : MonoBehaviour
     }
     /*-----------------------------------------------------*/
     //End Spawn Funcs
+
+    void EndOfDayClearCreatures()
+    {
+
+    }
 }

@@ -21,6 +21,7 @@ public class PathfindingAI : MonoBehaviour
     private void Awake()
     {
         m_target = GameObject.FindWithTag("Food").transform;
+        Debug.Log(m_target.position);
         m_agent = GetComponent<NavMeshAgent>();
     }
 
@@ -35,6 +36,8 @@ public class PathfindingAI : MonoBehaviour
 
     private void Patrolling()
     {
+        //Debug.Log($"{this.name} Is Patrolling");
+
         if (!walkPointSet) SearchWalkPoint();
 
         if (walkPointSet)
@@ -60,6 +63,8 @@ public class PathfindingAI : MonoBehaviour
 
     private void ChasePlayer()
     {
+        //Debug.Log($"{this.name} is Chasing!");
+
         if (m_target)
         {
             m_agent.SetDestination(m_target.position);
