@@ -7,20 +7,27 @@ public class Spawning : MonoBehaviour
 
     public static int m_StartingNumOfCreatures;
 
-    public static float m_xSpawnCoord;
-    public static float m_ySpawnCoord;
+    public static float m_xSpawnCoord, m_ySpawnCoord;
 
-    GameObject m_Creature;
+    GameObject m_Creature, m_Food;
 
     void Start()
     {
         m_Creature = GameObject.FindWithTag("Creature");
+        m_Food = GameObject.FindWithTag("Food");
+
+        Instantiate(m_Food, new Vector3(0, 0, 0), Quaternion.identity);
 
         //test spawning
-        SpawnAlongXLine(4, 25f, 25f);
-        SpawnAlongNegXLine(4, 25f, 25f);
-        SpawnAlongZLine(4, 25f, 25f);
-        SpawnAlongNegZLine(6, 25f, 25f);
+        if (m_Creature)
+        {
+            SpawnAlongXLine(4, 25f, 25f);
+            SpawnAlongNegXLine(4, 25f, 25f);
+            SpawnAlongZLine(4, 25f, 25f);
+            SpawnAlongNegZLine(6, 25f, 25f);
+        }
+
+
     }
 
     void Update()

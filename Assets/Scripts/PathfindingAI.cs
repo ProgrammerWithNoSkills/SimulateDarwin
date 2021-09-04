@@ -3,11 +3,11 @@ using UnityEngine.AI;
 
 public class PathfindingAI : MonoBehaviour
 {
-   /* private NavMeshAgent m_agent;
+    private NavMeshAgent m_agent;
 
     public Transform m_target;
 
-    public LayerMask whatIsGround, whatIsPlayer;
+    public LayerMask whatIsGround, whatIsFood;
 
     //Patroling
     public Vector3 walkPoint;
@@ -20,20 +20,20 @@ public class PathfindingAI : MonoBehaviour
 
     private void Awake()
     {
-        m_target = GameObject.Find("Food").transform;
+        m_target = GameObject.FindWithTag("Food").transform;
         m_agent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
         //Check for sight range
-        targetInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+        targetInSightRange = Physics.CheckSphere(this.transform.position, sightRange, whatIsFood);
 
-        if (!targetInSightRange) Patroling();
+        if (!targetInSightRange) Patrolling();
         if (targetInSightRange) ChasePlayer();
     }
 
-    private void Patroling()
+    private void Patrolling()
     {
         if (!walkPointSet) SearchWalkPoint();
 
@@ -64,5 +64,5 @@ public class PathfindingAI : MonoBehaviour
         {
             m_agent.SetDestination(m_target.position);
         } 
-    } */
+    } 
 }
