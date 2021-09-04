@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 public class PathfindingAI : MonoBehaviour
 {
-    private NavMeshAgent m_agent;
+   /* private NavMeshAgent m_agent;
 
     public Transform m_target;
 
@@ -63,6 +63,6 @@ public class PathfindingAI : MonoBehaviour
         if (m_target)
         {
             m_agent.SetDestination(m_target.position);
-        }
-    }
+        } 
+    } */
 }
