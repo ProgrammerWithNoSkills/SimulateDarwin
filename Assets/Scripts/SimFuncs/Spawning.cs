@@ -26,8 +26,6 @@ public class Spawning : MonoBehaviour
             SpawnAlongZLine(1, 25f, 25f);
             SpawnAlongNegZLine(1, 25f, 25f);
         }
-
-
     }
 
     void Update()
