@@ -16,7 +16,7 @@ public class Spawning : MonoBehaviour
         m_Creature = Resources.Load("Prefabs/Creature") as GameObject;
         m_Food = Resources.Load("Prefabs/Food") as GameObject;
 
-        Instantiate(m_Food, new Vector3(0, 0, 0), Quaternion.identity);
+        SpawnFood(3);
 
         //test spawning
         if (m_Creature)
@@ -33,15 +33,26 @@ public class Spawning : MonoBehaviour
         
     }
 
-    void SpawnFood(int numToSpawn, Vector3 spawnArea)
+    //Spawn Food Funcs
+    /*--------------------------------------------------*/
+    void SpawnFood(int numToSpawn)
     {
         for (int i = 1; i <= numToSpawn; i++)
         {
-
+            MeshRenderer foodObjMeshRenderer = Instantiate(m_Food, new Vector3(Random.Range(-15f, 15f), 0f, Random.Range(-15f, 15f)), Quaternion.identity).GetComponent<MeshRenderer>();
+            ChangeMaterialColour(foodObjMeshRenderer);
         }
     }
 
-    //Spawn Funcs
+    void ChangeMaterialColour(MeshRenderer renderComponent)
+    {
+        Color color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
+        renderComponent.material.color = color;
+    }
+    /*--------------------------------------------------*/
+
+
+    //Spawn Creature Funcs
     //Eulers to be corrected when creature models complete
     //1f y value because we're spawning on a plane and want the creatures to fall down onto it.
     /*--------------------------------------------------*/

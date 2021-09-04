@@ -9,7 +9,7 @@ public class PathfindingAI : MonoBehaviour
 
     public LayerMask whatIsGround, whatIsFood;
 
-    //Patroling
+    //Patrolling
     public Vector3 walkPoint;
     bool walkPointSet;
     public float walkPointRange;
