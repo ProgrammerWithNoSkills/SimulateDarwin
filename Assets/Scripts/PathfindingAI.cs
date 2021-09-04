@@ -30,6 +30,7 @@ public class PathfindingAI : MonoBehaviour
         //Check for sight range
         targetInSightRange = Physics.CheckSphere(this.transform.position, sightRange, whatIsFood);
 
+        m_target = GameObject.FindWithTag("Food").transform;
         if (!targetInSightRange) Patrolling();
         if (targetInSightRange) ChasePlayer();
     }
