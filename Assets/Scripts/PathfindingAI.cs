@@ -67,6 +67,8 @@ public class PathfindingAI : MonoBehaviour
 
         if (m_target)
         {
+            //Debug.Log(m_target.position);
+            //Debug.Log(new Vector3(0, 0, 0));
             m_agent.SetDestination(m_target.position);
         } 
     } 

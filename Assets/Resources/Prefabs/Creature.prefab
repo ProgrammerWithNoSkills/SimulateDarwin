@@ -55,7 +55,7 @@ MonoBehaviour:
     m_Bits: 512
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 10
-  sightRange: 5
+  sightRange: 15
   targetInSightRange: 0
 --- !u!195 &5752079996937574309
 NavMeshAgent:
