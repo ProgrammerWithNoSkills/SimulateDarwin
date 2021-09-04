@@ -30,7 +30,7 @@ public class PathfindingAI : MonoBehaviour
         //Check for sight range
         targetInSightRange = Physics.CheckSphere(this.transform.position, sightRange, whatIsFood);
 
-        m_target = GameObject.FindWithTag("Food").transform;
+        m_target = FindClosestFood().transform;
         if (!targetInSightRange) Patrolling();
         if (targetInSightRange) ChasePlayer();
     }
@@ -71,6 +71,29 @@ public class PathfindingAI : MonoBehaviour
             //Debug.Log(m_target.position);
             //Debug.Log(new Vector3(0, 0, 0));
             m_agent.SetDestination(m_target.position);
-        } 
-    } 
+        }
+    }
+
+    private GameObject FindClosestFood()
+    {
+        GameObject[] foods;
+        foods = GameObject.FindGameObjectsWithTag("Food");
+
+        GameObject closest = null;
+        Vector3 position = transform.position;
+
+        float distance = Mathf.Infinity; //Field of View!!!!
+
+        foreach (GameObject food in foods)
+        {
+            Vector3 diff = food.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = food;
+                distance = curDistance;
+            }
+        }
+        return closest;
+    }
 }

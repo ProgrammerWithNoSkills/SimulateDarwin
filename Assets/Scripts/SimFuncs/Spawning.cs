@@ -16,15 +16,15 @@ public class Spawning : MonoBehaviour
         m_Creature = Resources.Load("Prefabs/Creature") as GameObject;
         m_Food = Resources.Load("Prefabs/Food") as GameObject;
 
-        SpawnFood(3);
+        SpawnFood(17);
 
         //test spawning
         if (m_Creature)
         {
-            SpawnAlongXLine(1, 25f, 25f);
+            SpawnAlongXLine(2, 25f, 25f);
             SpawnAlongNegXLine(1, 25f, 25f);
-            SpawnAlongZLine(1, 25f, 25f);
-            SpawnAlongNegZLine(1, 25f, 25f);
+            SpawnAlongZLine(3, 25f, 25f);
+            SpawnAlongNegZLine(2, 25f, 25f);
         }
     }
 
