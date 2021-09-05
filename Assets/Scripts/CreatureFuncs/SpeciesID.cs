@@ -8,6 +8,6 @@ public class SpeciesID : MonoBehaviour
     void Awake()
     {
         UUID = Random.Range(int.MinValue, int.MaxValue);
-        Debug.Log(UUID);
+        //Debug.Log(UUID);
     }
 }

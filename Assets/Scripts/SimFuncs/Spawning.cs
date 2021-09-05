@@ -133,7 +133,7 @@ public class Spawning : MonoBehaviour
         for (int i = 0; i < creatures.Length; i++)
         {
             int spawnSide = Random.Range(1, 5);
-            Debug.Log(spawnSide);
+            //Debug.Log(spawnSide);
             switch (spawnSide)
             {
                 case 1:
