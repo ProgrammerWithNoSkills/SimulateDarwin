@@ -18,7 +18,7 @@ public class DayManager : MonoBehaviour
         m_textComponent.text = " Day 0";
         m_dayCount = 0;
         m_isSimStarted = false;
-        m_dayEnded = false;
+        m_dayEnded = true;
     }
 
     private void Update()
@@ -58,18 +58,43 @@ public class DayManager : MonoBehaviour
     public void EndDay()
     {
         //clear food if any are left (purely precautionary function)
-        foreach (GameObject i in GameObject.FindGameObjectsWithTag("Food"))
+        foreach (GameObject food in GameObject.FindGameObjectsWithTag("Food"))
         {
-            if (i)
+            if (food)
             {
-                Destroy(i);
+                Destroy(food);
             } 
         }
 
         m_isSimStarted = false;
         m_dayEnded = true;
 
-        Spawning.EndOfDayTPCreaturesToEdge();
+        GameObject[] creatures = GameObject.FindGameObjectsWithTag("Creature");
+
+        UpdateFitnessAndReproduceOrDie(creatures);
+        Spawning.EndOfDayTPCreaturesToEdge(creatures);
     }
     
+    //End of day functions to run.
+    /*-------------------------------------*/
+    private bool UpdateFitnessAndReproduceOrDie(GameObject[] creatures)
+    {
+         foreach (GameObject creature in creatures)
+        {
+            Fitness creatureFitness = creature.GetComponent<Fitness>();
+
+            if (creatureFitness.foodcount < 1)
+            {
+                Debug.Log($"I, {creature.GetComponent<SpeciesID>().UUID} die");
+                creature.GetComponent<DieAnim>().isDead = true;
+                Destroy(creature);
+                continue;
+            }
+
+            creatureFitness.curFitnessScore += creatureFitness.foodcount + creatureFitness.offspring;
+            creatureFitness.foodcount = 0;
+        }
+        return true;
+    }
+    /*-------------------------------------*/
 }

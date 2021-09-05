@@ -7,16 +7,21 @@ public class Fitness : MonoBehaviour
     public int foodcount;
     public int offspring;
     public int fitness;
+    public int curFitnessScore;
+
+    private bool canReproduce;
 
     private void Awake()
     {
         foodcount = 0;
-        offspring = 1;
+        offspring = 0;
+        canReproduce = false;
+        curFitnessScore = 0;
     }
 
     private void Update()
     {
-        UpdateFitness();
+        //UpdateFitness();
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -26,8 +31,4 @@ public class Fitness : MonoBehaviour
         }
     }
 
-    void UpdateFitness()
-    {
-        fitness = foodcount * offspring;
-    }
 }

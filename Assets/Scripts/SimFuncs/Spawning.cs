@@ -125,9 +125,8 @@ public class Spawning : MonoBehaviour
     /*-----------------------------------------------------*/
     //End Spawn Funcs
 
-    public static void EndOfDayTPCreaturesToEdge()
+    public static void EndOfDayTPCreaturesToEdge(GameObject[] creatures)
     {
-        GameObject[] creatures = GameObject.FindGameObjectsWithTag("Creature");
 
         //reset locations to edge of map
         for (int i = 0; i < creatures.Length; i++)
@@ -156,4 +155,5 @@ public class Spawning : MonoBehaviour
         }
 
     }
+
 }
