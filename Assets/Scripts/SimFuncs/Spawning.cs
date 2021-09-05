@@ -9,14 +9,12 @@ public class Spawning : MonoBehaviour
 
     public static float m_xSpawnCoord, m_ySpawnCoord;
 
-    GameObject m_Creature, m_Food;
+    static GameObject m_Creature, m_Food;
 
     void Start()
     {
         m_Creature = Resources.Load("Prefabs/Creature") as GameObject;
         m_Food = Resources.Load("Prefabs/Food") as GameObject;
-
-        SpawnFood(17);
 
         //test spawning
         if (m_Creature)
@@ -35,7 +33,7 @@ public class Spawning : MonoBehaviour
 
     //Spawn Food Funcs
     /*--------------------------------------------------*/
-    void SpawnFood(int numToSpawn)
+    public static void SpawnFood(int numToSpawn)
     {
         for (int i = 1; i <= numToSpawn; i++)
         {
@@ -44,7 +42,7 @@ public class Spawning : MonoBehaviour
         }
     }
 
-    void ChangeMaterialColour(MeshRenderer renderComponent)
+    static void ChangeMaterialColour(MeshRenderer renderComponent)
     {
         Color color = new Color(Random.Range(0f, 0.1f), Random.Range(0.3f, 1f), Random.Range(0f, 0.1f), Random.Range(0.3f, 1f));
         renderComponent.material.color = color;
@@ -92,11 +90,70 @@ public class Spawning : MonoBehaviour
             Instantiate(m_Creature, spawnLoc, Quaternion.Euler(0, 0, 90));
         }
     }
+
+    //Respawning at End of Day
+    static void RespawnAlongXLine(GameObject creature, float xBound, float zBound)
+    {
+        Vector3 spawnLoc = new Vector3(xBound, 1f, Random.Range(-zBound, zBound));
+
+        creature.transform.rotation = Quaternion.Euler(0, 0, 90);
+        creature.transform.position = spawnLoc;
+    }
+    static void RespawnAlongNegXLine(GameObject creature, float xBound, float zBound)
+    {
+        Vector3 spawnLoc = new Vector3(-xBound, 1f, Random.Range(-zBound, zBound));
+
+        creature.transform.rotation = Quaternion.Euler(0, 0, 90);
+        creature.transform.position = spawnLoc;
+    }
+
+    static void RespawnAlongZLine(GameObject creature, float xBound, float zBound)
+    {
+        Vector3 spawnLoc = new Vector3(Random.Range(-xBound, xBound), 1f, zBound);
+
+        creature.transform.rotation = Quaternion.Euler(0, 0, 90);
+        creature.transform.position = spawnLoc;
+    }
+
+    static void RespawnAlongNegZLine(GameObject creature, float xBound, float zBound)
+    {
+        Vector3 spawnLoc = new Vector3(Random.Range(-xBound, xBound), 1f, -zBound);
+
+        creature.transform.rotation = Quaternion.Euler(0, 0, 90);
+        creature.transform.position = spawnLoc;
+    }
     /*-----------------------------------------------------*/
     //End Spawn Funcs
 
     public static void EndOfDayTPCreaturesToEdge()
     {
+        GameObject[] creatures = GameObject.FindGameObjectsWithTag("Creature");
+
+        //reset locations to edge of map
+        for (int i = 0; i < creatures.Length; i++)
+        {
+            int spawnSide = Random.Range(1, 5);
+            Debug.Log(spawnSide);
+            switch (spawnSide)
+            {
+                case 1:
+                    RespawnAlongXLine(creatures[i], 25f, 25f);
+                    break;
+                case 2:
+                    RespawnAlongNegXLine(creatures[i], 25f, 25f);
+                    break;
+                case 3:
+                    RespawnAlongZLine(creatures[i], 25f, 25f);
+                    break;
+                case 4:
+                    RespawnAlongNegZLine(creatures[i], 25, 25);
+                    break;
+                default:
+                    Debug.Log($"Error Resetting location of {creatures[i]}");
+                    break;
+            }
+
+        }
 
     }
 }

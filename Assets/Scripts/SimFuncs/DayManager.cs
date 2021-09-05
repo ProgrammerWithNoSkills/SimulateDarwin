@@ -8,35 +8,37 @@ public class DayManager : MonoBehaviour
     private static TMP_Text m_textComponent;
     private static int m_dayCount;
 
-    private static bool m_simStarted = false;
-    private static bool m_dayEnded = false;
+    public static bool m_isSimStarted;
+
+    private static bool m_dayEnded;
 
     void Awake()
     {
         m_textComponent = GetComponent<TMP_Text>();
+        m_textComponent.text = " Day 0";
         m_dayCount = 0;
+        m_isSimStarted = false;
+        m_dayEnded = false;
     }
 
     private void Update()
     {
 
-        /*if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (m_simStarted == false)
+            if (m_isSimStarted == false)
             {
                 BeginSim();
             }
-            else if (m_dayEnded == false)
+            /*else if (m_dayEnded == false)
             {
                 EndDay();
-            }
-            else
-            {
-                BeginNextDay();
-            }
-        }*/
+            }*/ //broken btw
+        }
 
-        if (GameObject.FindGameObjectsWithTag("Food").Length < 1)
+        //Debug.Log(GameObject.FindGameObjectsWithTag("Food"));
+
+        if (m_dayEnded == false && GameObject.FindGameObjectsWithTag("Food").Length < 1)
         {
             EndDay();
         }
@@ -45,29 +47,29 @@ public class DayManager : MonoBehaviour
 
     public void BeginSim()
     {
-        m_dayCount = 1;
+        m_dayCount++;
         m_textComponent.text = $" Day {m_dayCount}";
-        m_simStarted = true;
+        m_isSimStarted = true;
+        m_dayEnded = false;
+
+        Spawning.SpawnFood(15);
     }
 
-    public bool EndDay()
+    public void EndDay()
     {
+        //clear food if any are left (purely precautionary function)
+        foreach (GameObject i in GameObject.FindGameObjectsWithTag("Food"))
+        {
+            if (i)
+            {
+                Destroy(i);
+            } 
+        }
+
+        m_isSimStarted = false;
+        m_dayEnded = true;
 
         Spawning.EndOfDayTPCreaturesToEdge();
-
-        m_dayCount += 1;
-        m_textComponent.text = $" Day {m_dayCount}";
-        m_dayEnded = true;
-        return true;
     }
-
-    public bool BeginNextDay()
-    {
-        m_dayCount += 1;
-        m_textComponent.text = $" Day {m_dayCount}";
-        m_dayEnded = false;
-        return true;
-    }
-
     
 }

@@ -20,19 +20,33 @@ public class PathfindingAI : MonoBehaviour
 
     private void Awake()
     {
-        m_target = GameObject.FindWithTag("Food").transform;
-        //Debug.Log(m_target.position);
         m_agent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
+        //if the sim is ended reset path.
+        if (!DayManager.m_isSimStarted && m_agent.hasPath)
+        {
+            m_agent.ResetPath();
+            return;
+        }
+        else if (!DayManager.m_isSimStarted)
+        {
+            return;
+        }
+
         //Check for sight range
         targetInSightRange = Physics.CheckSphere(this.transform.position, sightRange, whatIsFood);
 
+        //find and assign target object
         try
         {
-            m_target = FindClosestFood().transform;
+            GameObject m_targetObj = FindClosestFood(); //find target object
+            if (m_targetObj)
+            {
+                m_target = m_targetObj.transform;
+            }
         }
         catch (System.NullReferenceException e) 
         {
@@ -102,6 +116,10 @@ public class PathfindingAI : MonoBehaviour
                 viewDistance = curDistance;
             }
         }
-        return closest;
+        if (closest)
+        {
+            return closest;
+        }
+        return null;
     }
 }
