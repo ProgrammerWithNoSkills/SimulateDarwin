@@ -9,7 +9,7 @@ public class PathfindingAI : MonoBehaviour
 
     public LayerMask whatIsGround, whatIsFood;
 
-    public float time = 1f; //edit this value to speed up sim
+    public float timeSpeed = 1f; //edit this value to speed up sim
 
     //Patrolling
     public Vector3 walkPoint;
@@ -27,7 +27,8 @@ public class PathfindingAI : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Time.timeScale = time;
+        Time.timeScale = timeSpeed;
+
         //if the sim is ended reset path.
         if (!DayManager.m_isSimStarted && m_agent.hasPath)
         {
