@@ -95,7 +95,7 @@ public class Spawning : MonoBehaviour
     /*-----------------------------------------------------*/
     //End Spawn Funcs
 
-    void EndOfDayClearCreatures()
+    public static void EndOfDayTPCreaturesToEdge()
     {
 
     }

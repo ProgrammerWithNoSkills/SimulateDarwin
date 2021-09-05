@@ -20,7 +20,7 @@ public class DayManager : MonoBehaviour
     private void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        /*if (Input.GetKeyDown(KeyCode.Space))
         {
             if (m_simStarted == false)
             {
@@ -34,6 +34,11 @@ public class DayManager : MonoBehaviour
             {
                 BeginNextDay();
             }
+        }*/
+
+        if (GameObject.FindGameObjectsWithTag("Food").Length < 1)
+        {
+            EndDay();
         }
 
     }
@@ -47,6 +52,9 @@ public class DayManager : MonoBehaviour
 
     public bool EndDay()
     {
+
+        Spawning.EndOfDayTPCreaturesToEdge();
+
         m_dayCount += 1;
         m_textComponent.text = $" Day {m_dayCount}";
         m_dayEnded = true;
@@ -60,4 +68,6 @@ public class DayManager : MonoBehaviour
         m_dayEnded = false;
         return true;
     }
+
+    
 }

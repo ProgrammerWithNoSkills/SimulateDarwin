@@ -30,7 +30,15 @@ public class PathfindingAI : MonoBehaviour
         //Check for sight range
         targetInSightRange = Physics.CheckSphere(this.transform.position, sightRange, whatIsFood);
 
-        m_target = FindClosestFood().transform;
+        try
+        {
+            m_target = FindClosestFood().transform;
+        }
+        catch (System.NullReferenceException e) 
+        {
+            Debug.Log(e);
+        }
+
         if (!targetInSightRange) Patrolling();
         if (targetInSightRange) ChasePlayer();
     }
