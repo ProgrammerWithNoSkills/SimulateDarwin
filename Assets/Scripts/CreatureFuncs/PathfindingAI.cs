@@ -96,11 +96,4 @@ public class PathfindingAI : MonoBehaviour
         }
         return closest;
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Food")
-        {
-            Fitness.foodcount++;
-        }
-    }
 }

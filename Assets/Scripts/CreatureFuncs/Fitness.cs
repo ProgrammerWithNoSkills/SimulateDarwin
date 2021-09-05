@@ -18,6 +18,13 @@ public class Fitness : MonoBehaviour
     {
         UpdateFitness();
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Food")
+        {
+            foodcount++;
+        }
+    }
 
     void UpdateFitness()
     {
