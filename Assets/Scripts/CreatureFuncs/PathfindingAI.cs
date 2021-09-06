@@ -25,26 +25,25 @@ public class PathfindingAI : MonoBehaviour
     private void Awake()
     {
         m_agent = GetComponent<NavMeshAgent>();
-        //UpdateMoveSpeed(m_walkSpeed);
     }
 
     private void FixedUpdate()
     {
-        Time.timeScale = timeSpeed;
-
         //if the sim is ended set speed to 0.
         if (DayManager.m_isSimStarted == false && m_agent.hasPath)
         {
-            UpdateMoveSpeed(0f);
+            SetMovementNull();
             return;
         }
         else if (DayManager.m_isSimStarted == false)
         {
-            UpdateMoveSpeed(0f);
+            SetMovementNull();
             return;
         }
 
-        if (m_agent.speed == 0f) UpdateMoveSpeed(m_moveSpeed);//if passed set speed back to normal
+        Time.timeScale = timeSpeed;
+
+        if (m_agent.speed == 0f && m_agent.angularSpeed == 0f) UpdateMoveSpeed(m_moveSpeed);//if passed set speed back to normal
 
         //Check for sight range
         targetInSightRange = Physics.CheckSphere(this.transform.position, sightRange, whatIsFood);
@@ -141,5 +140,11 @@ public class PathfindingAI : MonoBehaviour
     public void UpdateMoveSpeed(float newMoveSpeed)//update move speed
     {
         this.m_agent.speed = newMoveSpeed;
+    }
+
+    public void SetMovementNull()
+    {
+        this.m_agent.angularSpeed = 0f;
+        this.m_agent.speed = 0f;
     }
 }
