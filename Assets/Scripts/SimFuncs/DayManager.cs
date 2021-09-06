@@ -80,7 +80,7 @@ public class DayManager : MonoBehaviour
     private bool UpdateFitnessAndReproduceOrDie(GameObject[] creatures)
     {
          foreach (GameObject creature in creatures)
-        {
+         {
             Fitness creatureFitness = creature.GetComponent<Fitness>();
 
             if (creatureFitness.foodcount < 1)
