@@ -69,10 +69,10 @@ public class DayManager : MonoBehaviour
         m_isSimStarted = false;
         m_dayEnded = true;
 
-        GameObject[] creatures = GameObject.FindGameObjectsWithTag("Creature");
-
-        UpdateFitnessAndReproduceOrDie(creatures);
-        Spawning.EndOfDayTPCreaturesToEdge(creatures);
+        //Find twice cause the creatures reproduce between this
+        UpdateFitnessAndReproduceOrDie(GameObject.FindGameObjectsWithTag("Creature"));
+        //and this
+        StartCoroutine(Spawning.EndOfDayTPCreaturesToEdge(GameObject.FindGameObjectsWithTag("Creature")));
     }
     
     //End of day functions to run.
@@ -85,10 +85,19 @@ public class DayManager : MonoBehaviour
 
             if (creatureFitness.foodcount < 1)
             {
-                Debug.Log($"I, {creature.GetComponent<SpeciesID>().UUID} die");
+                //Debug.Log($"I, {creature.GetComponent<SpeciesID>().UUID} die");
                 creature.GetComponent<DieAnim>().isDead = true;
-                Destroy(creature);
                 continue;
+            }
+            else if (creatureFitness.foodcount > 1)
+            {
+                Vector3 spawnPos = new Vector3(0, 2, 0) + creature.transform.position;
+                GameObject newCreature = Instantiate(Spawning.m_Creature, spawnPos, Quaternion.identity);
+
+                PathfindingAI parentPathfindingAIComp = creature.GetComponent<PathfindingAI>();
+                newCreature.GetComponent<PathfindingAI>().UpdateMoveSpeed(parentPathfindingAIComp.m_walkSpeed);
+
+                creatureFitness.offspring++;
             }
 
             creatureFitness.curFitnessScore += creatureFitness.foodcount + creatureFitness.offspring;

@@ -11,6 +11,8 @@ public class PathfindingAI : MonoBehaviour
 
     public float timeSpeed = 1f; //edit this value to speed up sim
 
+    public float m_walkSpeed = 15f;
+    
     //Patrolling
     public Vector3 walkPoint;
     bool walkPointSet;
@@ -23,6 +25,7 @@ public class PathfindingAI : MonoBehaviour
     private void Awake()
     {
         m_agent = GetComponent<NavMeshAgent>();
+        //UpdateMoveSpeed(m_walkSpeed);
     }
 
     private void FixedUpdate()
@@ -125,5 +128,10 @@ public class PathfindingAI : MonoBehaviour
             return closest;
         }
         return null;
+    }
+
+    public void UpdateMoveSpeed(float newMoveSpeed)
+    {
+        this.m_agent.speed = newMoveSpeed;
     }
 }

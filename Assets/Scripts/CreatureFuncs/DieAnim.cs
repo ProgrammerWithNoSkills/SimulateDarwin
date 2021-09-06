@@ -18,12 +18,23 @@ public class DieAnim : MonoBehaviour
     {
         if (isDead)
         {
-           //StartCoroutine(deathAnimation());
+           StartCoroutine(deathAnimationEz());
         }
     }
     
+    //Simple death
+    IEnumerator deathAnimationEz()
+    {
+        yield return new WaitForSeconds(5f);
+
+        Destroy(this.gameObject);
+    }
+
+    //Oh GOD this is a mess
     IEnumerator deathAnimation()
     {
+        yield return new WaitForSeconds(3f);
+
         for (float i = 0f; i > minScale; i += scaleSpeed)
         {
             scale -= scaleSpeed * Time.deltaTime;
@@ -32,10 +43,8 @@ public class DieAnim : MonoBehaviour
             if (scale < minScale)
             {
                 Destroy(this.gameObject);
-                yield return null;
                 break;
             }
-            yield return null;
         }
     }
 }

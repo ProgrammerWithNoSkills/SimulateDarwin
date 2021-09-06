@@ -9,7 +9,7 @@ public class Spawning : MonoBehaviour
 
     public static float m_xSpawnCoord, m_ySpawnCoord;
 
-    static GameObject m_Creature, m_Food;
+    public static GameObject m_Creature, m_Food;
 
     void Start()
     {
@@ -125,12 +125,16 @@ public class Spawning : MonoBehaviour
     /*-----------------------------------------------------*/
     //End Spawn Funcs
 
-    public static void EndOfDayTPCreaturesToEdge(GameObject[] creatures)
+    public static IEnumerator EndOfDayTPCreaturesToEdge(GameObject[] creatures)
     {
+        yield return new WaitForSeconds(3f);
 
         //reset locations to edge of map
         for (int i = 0; i < creatures.Length; i++)
         {
+
+            if (creatures[i].GetComponent<DieAnim>().isDead) continue; //If creature is dead don't tp them to edge
+
             int spawnSide = Random.Range(1, 5);
             //Debug.Log(spawnSide);
             switch (spawnSide)
