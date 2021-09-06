@@ -81,7 +81,7 @@ public class DayManager : MonoBehaviour
     private bool UpdateFitnessAndReproduceOrDie(GameObject[] creatures)
     {
          foreach (GameObject creature in creatures)
-        {
+         {
             Fitness creatureFitness = creature.GetComponent<Fitness>();
 
             creature.GetComponent<PathfindingAI>().UpdateMoveSpeed(0f);//update current creature speed to 0 aka freeze them
