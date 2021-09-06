@@ -15,7 +15,6 @@ public class Fitness : MonoBehaviour
     {
         foodcount = 0;
         offspring = 0;
-        canReproduce = false;
         curFitnessScore = 0;
     }
 
