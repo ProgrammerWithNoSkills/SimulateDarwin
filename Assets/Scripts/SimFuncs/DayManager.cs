@@ -91,11 +91,12 @@ public class DayManager : MonoBehaviour
             }
             else if (creatureFitness.foodcount > 1)
             {
-                Vector3 spawnPos = new Vector3(0, 2, 0) + creature.transform.position;
-                GameObject newCreature = Instantiate(Spawning.m_Creature, spawnPos, Quaternion.identity);
+                Vector3 spawnPos = new Vector3(0, 3, 0) + creature.transform.position;//place child to the side of parent
+                GameObject newCreature = Instantiate(Spawning.m_Creature, spawnPos, Quaternion.identity);//instantiate child
 
-                PathfindingAI parentPathfindingAIComp = creature.GetComponent<PathfindingAI>();
-                newCreature.GetComponent<PathfindingAI>().UpdateMoveSpeed(parentPathfindingAIComp.m_walkSpeed);
+                PathfindingAI parentPathfindingAIComp = creature.GetComponent<PathfindingAI>();//get parent pathfinding ai component
+
+                newCreature.GetComponent<PathfindingAI>().UpdateMoveSpeed(parentPathfindingAIComp.m_walkSpeed);//Set child movespeed to parent's move speed
 
                 creatureFitness.offspring++;
             }
