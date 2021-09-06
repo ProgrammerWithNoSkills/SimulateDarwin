@@ -11,7 +11,7 @@ public class PathfindingAI : MonoBehaviour
 
     public float timeSpeed = 1f; //edit this value to speed up sim
 
-    public float m_walkSpeed = 15f;
+    public float m_moveSpeed = 1f;
     
     //Patrolling
     public Vector3 walkPoint;
@@ -32,16 +32,19 @@ public class PathfindingAI : MonoBehaviour
     {
         Time.timeScale = timeSpeed;
 
-        //if the sim is ended reset path.
-        if (!DayManager.m_isSimStarted && m_agent.hasPath)
+        //if the sim is ended set speed to 0.
+        if (DayManager.m_isSimStarted == false && m_agent.hasPath)
         {
-            m_agent.ResetPath();
+            UpdateMoveSpeed(0f);
             return;
         }
-        else if (!DayManager.m_isSimStarted)
+        else if (DayManager.m_isSimStarted == false)
         {
+            UpdateMoveSpeed(0f);
             return;
         }
+
+        if (m_agent.speed == 0f) UpdateMoveSpeed(m_moveSpeed);//if passed set speed back to normal
 
         //Check for sight range
         targetInSightRange = Physics.CheckSphere(this.transform.position, sightRange, whatIsFood);
@@ -130,7 +133,12 @@ public class PathfindingAI : MonoBehaviour
         return null;
     }
 
-    public void UpdateMoveSpeed(float newMoveSpeed)
+    public void SetMoveSpeed(float newMoveSpeed)//set genetic move speed
+    {
+        this.m_moveSpeed = newMoveSpeed;
+    }
+
+    public void UpdateMoveSpeed(float newMoveSpeed)//update move speed
     {
         this.m_agent.speed = newMoveSpeed;
     }

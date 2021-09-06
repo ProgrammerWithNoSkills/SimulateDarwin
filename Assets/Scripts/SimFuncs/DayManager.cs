@@ -53,6 +53,7 @@ public class DayManager : MonoBehaviour
         m_dayEnded = false;
 
         Spawning.SpawnFood(15);
+
     }
 
     public void EndDay()
@@ -83,6 +84,8 @@ public class DayManager : MonoBehaviour
         {
             Fitness creatureFitness = creature.GetComponent<Fitness>();
 
+            creature.GetComponent<PathfindingAI>().UpdateMoveSpeed(0f);//update current creature speed to 0 aka freeze them
+
             if (creatureFitness.foodcount < 1)
             {
                 //Debug.Log($"I, {creature.GetComponent<SpeciesID>().UUID} die");
@@ -97,7 +100,7 @@ public class DayManager : MonoBehaviour
                 PathfindingAI parentPathfindingAIComp = creature.GetComponent<PathfindingAI>();//get parent pathfinding ai component
 
                 /*------------- Inherit Traits from Parent -----------*/
-                newCreature.GetComponent<PathfindingAI>().UpdateMoveSpeed(parentPathfindingAIComp.m_walkSpeed);//Set child movespeed to parent's move speed
+                newCreature.GetComponent<PathfindingAI>().SetMoveSpeed(parentPathfindingAIComp.m_moveSpeed);//Set child movespeed to parent's move speed
                 /*------------------------ End -----------------------*/
 
                 creatureFitness.offspring++;
