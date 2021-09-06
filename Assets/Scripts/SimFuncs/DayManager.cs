@@ -96,7 +96,9 @@ public class DayManager : MonoBehaviour
 
                 PathfindingAI parentPathfindingAIComp = creature.GetComponent<PathfindingAI>();//get parent pathfinding ai component
 
+                /*------------- Inherit Traits from Parent -----------*/
                 newCreature.GetComponent<PathfindingAI>().UpdateMoveSpeed(parentPathfindingAIComp.m_walkSpeed);//Set child movespeed to parent's move speed
+                /*------------------------ End -----------------------*/
 
                 creatureFitness.offspring++;
             }
