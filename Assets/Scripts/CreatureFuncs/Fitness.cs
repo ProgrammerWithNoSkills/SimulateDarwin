@@ -20,10 +20,8 @@ public class Fitness : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("I have touched thee");
         if (collision.gameObject.tag == "Food")
         {
-            Debug.Log("The food has been eaten");
             this.foodcount++;
         }
     }

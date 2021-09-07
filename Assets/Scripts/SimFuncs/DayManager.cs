@@ -72,6 +72,7 @@ public class DayManager : MonoBehaviour
         UpdateFitnessAndReproduceOrDie(GameObject.FindGameObjectsWithTag("Creature"));
         //and this
         StartCoroutine(Spawning.EndOfDayTPCreaturesToEdge(GameObject.FindGameObjectsWithTag("Creature")));
+        StartCoroutine()
     }
     
     //End of day functions to run.
