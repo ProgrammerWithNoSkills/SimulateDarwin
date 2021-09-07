@@ -57,6 +57,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   timeSpeed: 1
+  m_moveSpeed: 5
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 10
   sightRange: 15

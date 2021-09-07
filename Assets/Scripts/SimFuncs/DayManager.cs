@@ -7,9 +7,7 @@ public class DayManager : MonoBehaviour
 {
     private static TMP_Text m_textComponent;
     private static int m_dayCount;
-
     public static bool m_isSimStarted;
-
     private static bool m_dayEnded;
 
     void Awake()
@@ -83,9 +81,8 @@ public class DayManager : MonoBehaviour
          foreach (GameObject creature in creatures)
          {
             Fitness creatureFitness = creature.GetComponent<Fitness>();
-
-            creature.GetComponent<PathfindingAI>().UpdateMoveSpeed(0f);//update current creature speed to 0 aka freeze them
-
+            Rigidbody m_rigidBody = creature.GetComponent<Rigidbody>();
+            m_rigidBody.angularVelocity = new Vector3(0, 0, 0); //freeze Rigidbody Angular velocity
             if (creatureFitness.foodcount < 1)
             {
                 //Debug.Log($"I, {creature.GetComponent<SpeciesID>().UUID} die");
