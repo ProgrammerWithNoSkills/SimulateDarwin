@@ -82,6 +82,7 @@ public class DayManager : MonoBehaviour
          {
             Fitness creatureFitness = creature.GetComponent<Fitness>();
 
+            //reset rigidbody movement
             Rigidbody m_rigidBody = creature.GetComponent<Rigidbody>();
             m_rigidBody.isKinematic = false; //turns off movement
             m_rigidBody.isKinematic = true; //turns on movement
@@ -97,11 +98,24 @@ public class DayManager : MonoBehaviour
                 Vector3 spawnPos = new Vector3(0, 3, 0) + creature.transform.position;//place child to the side of parent
                 GameObject newCreature = Instantiate(Spawning.m_Creature, spawnPos, Quaternion.identity);//instantiate child
 
-                PathfindingAI parentPathfindingAIComp = creature.GetComponent<PathfindingAI>();//get parent pathfinding ai component
+                CreatureManagement parentCreatureManagementComp = creature.GetComponent<CreatureManagement>();//get parent pathfinding ai component
+                CreatureManagement childCreatureManagementComp = newCreature.GetComponent<CreatureManagement>();//get child pathfinding ai component
+
+                MeshRenderer parentMeshRendererComp = creature.GetComponentInChildren(typeof(MeshRenderer)) as MeshRenderer;//get parent rendering component
+                MeshRenderer childMeshRendererComp = newCreature.GetComponentInChildren(typeof(MeshRenderer)) as MeshRenderer;//get child rendering component
 
                 /*------------- Inherit Traits from Parent -----------*/
-                newCreature.GetComponent<PathfindingAI>().SetMoveSpeed(parentPathfindingAIComp.m_moveSpeed); //Set child movespeed to parent's move speed
-                newCreature.GetComponent<PathfindingAI>().SetMoveSpeed(parentPathfindingAIComp.sightRange); //Set child sightrange to parent's sightrange
+                childCreatureManagementComp.SetMoveSpeed(parentCreatureManagementComp.m_geneticMoveSpeed); //Set child movespeed to parent's move speed
+                childCreatureManagementComp.SetSigtRange(parentCreatureManagementComp.m_geneticSightRange); //Set child sightrange to parent's sightrange
+
+                //set child colour to parent colour
+                if (parentMeshRendererComp != null && childMeshRendererComp != null)
+                {
+                    childMeshRendererComp.material.color = parentMeshRendererComp.material.color;
+                }
+
+                //set child mass to parent mass, plus offset mutation
+                childCreatureManagementComp.SetGeneticMass(parentCreatureManagementComp.GetGeneticMass() + Random.Range(-20f, 20f)); //adjust RandomRange value to change mutation rates.
                 /*------------------------ End -----------------------*/
 
                 creatureFitness.offspring++;

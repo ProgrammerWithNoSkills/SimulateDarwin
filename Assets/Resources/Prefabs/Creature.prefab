@@ -57,10 +57,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   timeSpeed: 1
-  m_moveSpeed: 5
+  m_geneticMoveSpeed: 0
+  m_geneticMass: 0
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 10
-  sightRange: 15
+  m_geneticSightRange: 0
   targetInSightRange: 0
 --- !u!195 &5752079996937574309
 NavMeshAgent:
@@ -155,6 +156,7 @@ GameObject:
   - component: {fileID: 5752079998752194161}
   - component: {fileID: 7565168070923904630}
   - component: {fileID: 4634631520898935845}
+  - component: {fileID: 629777727717074249}
   m_Layer: 8
   m_Name: CreatureBody
   m_TagString: Untagged
@@ -252,3 +254,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   creatureBody: {fileID: 5752079998752194159}
+--- !u!114 &629777727717074249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5752079998752194159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e64a50ee43504fa42bd3188a0aa10d4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

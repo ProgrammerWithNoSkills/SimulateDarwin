@@ -18,16 +18,13 @@ public class Fitness : MonoBehaviour
         curFitnessScore = 0;
     }
 
-    private void Update()
-    {
-        //UpdateFitness();
-    }
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("I have touched thee");
         if (collision.gameObject.tag == "Food")
         {
-            foodcount++;
+            Debug.Log("The food has been eaten");
+            this.foodcount++;
         }
     }
-
 }

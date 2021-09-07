@@ -37,7 +37,7 @@ public class Spawning : MonoBehaviour
     {
         for (int i = 1; i <= numToSpawn; i++)
         {
-            MeshRenderer foodObjMeshRenderer = Instantiate(m_Food, new Vector3(Random.Range(-15f, 15f), 0f, Random.Range(-15f, 15f)), Quaternion.identity).GetComponent<MeshRenderer>();
+            MeshRenderer foodObjMeshRenderer = Instantiate(m_Food, new Vector3(Random.Range(-15f, 15f), 0.3f, Random.Range(-15f, 15f)), Quaternion.identity).GetComponent<MeshRenderer>();
             ChangeMaterialColour(foodObjMeshRenderer);
         }
     }
@@ -127,7 +127,7 @@ public class Spawning : MonoBehaviour
 
     public static IEnumerator EndOfDayTPCreaturesToEdge(GameObject[] creatures)
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(0.1f);
 
         //reset locations to edge of map
         for (int i = 0; i < creatures.Length; i++)
