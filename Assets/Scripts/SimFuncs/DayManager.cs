@@ -69,21 +69,24 @@ public class DayManager : MonoBehaviour
         m_dayEnded = true;
 
         //Find twice cause the creatures reproduce between this
-        UpdateFitnessAndReproduceOrDie(GameObject.FindGameObjectsWithTag("Creature"));
+        LiveOrDie(GameObject.FindGameObjectsWithTag("Creature"));
         //and this
+        GameObject[] survivingCreatures = GameObject.FindGameObjectsWithTag("Creature");
         StartCoroutine(Spawning.EndOfDayTPCreaturesToEdge(GameObject.FindGameObjectsWithTag("Creature")));
-        StartCoroutine()
+
+        StartCoroutine(Reproduce(GameObject.FindGameObjectsWithTag("Creature")));
+        StartCoroutine(UpdateFitness(GameObject.FindGameObjectsWithTag("Creature")));
     }
     
     //End of day functions to run.
     /*-------------------------------------*/
-    private bool UpdateFitnessAndReproduceOrDie(GameObject[] creatures)
+    void LiveOrDie(GameObject[] creatures)
     {
-         foreach (GameObject creature in creatures)
-         {
+        foreach (GameObject creature in creatures)
+        {
             Fitness creatureFitness = creature.GetComponent<Fitness>();
 
-            //reset rigidbody movement
+            //stop all movement
             Rigidbody m_rigidBody = creature.GetComponent<Rigidbody>();
             m_rigidBody.isKinematic = false; //turns off movement
             m_rigidBody.isKinematic = true; //turns on movement
@@ -94,8 +97,32 @@ public class DayManager : MonoBehaviour
                 creature.GetComponent<DieAnim>().isDead = true;
                 continue;
             }
-            else if (creatureFitness.foodcount > 1)
+        }
+    }
+
+    IEnumerator UpdateFitness(GameObject[] creatures)
+    {
+        yield return new WaitForSeconds(1.2f);
+
+        foreach (GameObject creature in creatures)
+        {
+            Fitness creatureFitness = creature.GetComponent<Fitness>();
+            creatureFitness.curFitnessScore += creatureFitness.foodcount + creatureFitness.offspring;
+            creatureFitness.foodcount = 0;
+        }
+    }
+   IEnumerator Reproduce(GameObject[] creatures)
+    {
+        yield return new WaitForSeconds(1f);
+
+        foreach (GameObject creature in creatures)
+        {
+            Fitness creatureFitness = creature.GetComponent<Fitness>();
+
+            Debug.Log(creatureFitness.foodcount);
+            if (creatureFitness.foodcount > 1)
             {
+                Debug.Log("I can bebe");
                 Vector3 spawnPos = new Vector3(0, 3, 0) + creature.transform.position;//place child to the side of parent
                 GameObject newCreature = Instantiate(Spawning.m_Creature, spawnPos, Quaternion.identity);//instantiate child
 
@@ -121,11 +148,7 @@ public class DayManager : MonoBehaviour
 
                 creatureFitness.offspring++;
             }
-
-            creatureFitness.curFitnessScore += creatureFitness.foodcount + creatureFitness.offspring;
-            creatureFitness.foodcount = 0;
         }
-        return true;
     }
     /*-------------------------------------*/
 }
