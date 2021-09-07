@@ -81,8 +81,11 @@ public class DayManager : MonoBehaviour
          foreach (GameObject creature in creatures)
          {
             Fitness creatureFitness = creature.GetComponent<Fitness>();
+
             Rigidbody m_rigidBody = creature.GetComponent<Rigidbody>();
-            m_rigidBody.angularVelocity = new Vector3(0, 0, 0); //freeze Rigidbody Angular velocity
+            m_rigidBody.isKinematic = false; //turns off movement
+            m_rigidBody.isKinematic = true; //turns on movement
+
             if (creatureFitness.foodcount < 1)
             {
                 //Debug.Log($"I, {creature.GetComponent<SpeciesID>().UUID} die");
@@ -97,7 +100,8 @@ public class DayManager : MonoBehaviour
                 PathfindingAI parentPathfindingAIComp = creature.GetComponent<PathfindingAI>();//get parent pathfinding ai component
 
                 /*------------- Inherit Traits from Parent -----------*/
-                newCreature.GetComponent<PathfindingAI>().SetMoveSpeed(parentPathfindingAIComp.m_moveSpeed);//Set child movespeed to parent's move speed
+                newCreature.GetComponent<PathfindingAI>().SetMoveSpeed(parentPathfindingAIComp.m_moveSpeed); //Set child movespeed to parent's move speed
+                newCreature.GetComponent<PathfindingAI>().SetMoveSpeed(parentPathfindingAIComp.sightRange); //Set child sightrange to parent's sightrange
                 /*------------------------ End -----------------------*/
 
                 creatureFitness.offspring++;
