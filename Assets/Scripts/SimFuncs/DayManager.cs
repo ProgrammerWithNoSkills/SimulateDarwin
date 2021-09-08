@@ -22,7 +22,7 @@ public class DayManager : MonoBehaviour
         m_timeSpeed = 10f;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
 
         if (Input.GetKeyDown(KeyCode.Space))
