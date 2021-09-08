@@ -10,6 +10,8 @@ public class DayManager : MonoBehaviour
     public static bool m_isSimStarted;
     private static bool m_dayEnded;
 
+    public static float m_timeSpeed;
+
     void Awake()
     {
         m_textComponent = GetComponent<TMP_Text>();
@@ -17,6 +19,7 @@ public class DayManager : MonoBehaviour
         m_dayCount = 0;
         m_isSimStarted = false;
         m_dayEnded = true;
+        m_timeSpeed = 10f;
     }
 
     private void Update()
@@ -102,7 +105,7 @@ public class DayManager : MonoBehaviour
 
     IEnumerator UpdateFitness(GameObject[] creatures)
     {
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(1.2f / m_timeSpeed);
 
         foreach (GameObject creature in creatures)
         {
@@ -113,7 +116,7 @@ public class DayManager : MonoBehaviour
     }
    IEnumerator Reproduce(GameObject[] creatures)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f / m_timeSpeed);
 
         foreach (GameObject creature in creatures)
         {

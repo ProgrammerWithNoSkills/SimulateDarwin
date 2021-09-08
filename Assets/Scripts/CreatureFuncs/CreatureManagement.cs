@@ -9,8 +9,6 @@ public class CreatureManagement : MonoBehaviour
 
     public LayerMask whatIsGround, whatIsFood;
 
-    public float timeSpeed; //edit this value to speed up sim
-
     //genetics
     public float m_geneticMoveSpeed, m_geneticMass;
     
@@ -26,7 +24,6 @@ public class CreatureManagement : MonoBehaviour
     private void Awake()
     {
         m_agent = GetComponent<NavMeshAgent>();
-        timeSpeed = 1f;
 
         //init variables for first generation, need to randomise for variation and mutation.
         //randomise genetic values
@@ -49,7 +46,7 @@ public class CreatureManagement : MonoBehaviour
             return;
         }
 
-        Time.timeScale = timeSpeed;
+        Time.timeScale = DayManager.m_timeSpeed;
 
         if (m_agent.speed == 0f && m_agent.angularSpeed == 0f) UpdateMoveSpeed(m_geneticMoveSpeed);//if passed set speed back to normal
 
