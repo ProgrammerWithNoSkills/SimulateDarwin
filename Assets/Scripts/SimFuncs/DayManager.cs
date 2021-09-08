@@ -10,7 +10,7 @@ public class DayManager : MonoBehaviour
     public static bool m_isSimStarted;
     private static bool m_dayEnded;
 
-    public static float m_timeSpeed;
+    public static float m_timeSpeed; //edit this to change sim speed
 
     void Awake()
     {

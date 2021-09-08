@@ -31,6 +31,7 @@ public class DieAnim : MonoBehaviour
     }
 
     //Oh GOD this is a mess
+    //unused
     IEnumerator deathAnimation()
     {
         yield return new WaitForSeconds(3f);
