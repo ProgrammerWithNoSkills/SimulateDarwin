@@ -19,10 +19,10 @@ public class Spawning : MonoBehaviour
         //test spawning
         if (m_Creature)
         {
-            SpawnAlongXLine(2, 25f, 25f);
-            SpawnAlongNegXLine(1, 25f, 25f);
-            SpawnAlongZLine(3, 25f, 25f);
-            SpawnAlongNegZLine(2, 25f, 25f);
+            SpawnAlongXLine(4, 25f, 25f);
+            SpawnAlongNegXLine(5, 25f, 25f);
+            SpawnAlongZLine(6, 25f, 25f);
+            SpawnAlongNegZLine(5, 25f, 25f);
         }
     }
 
@@ -37,7 +37,7 @@ public class Spawning : MonoBehaviour
     {
         for (int i = 1; i <= numToSpawn; i++)
         {
-            MeshRenderer foodObjMeshRenderer = Instantiate(m_Food, new Vector3(Random.Range(-15f, 15f), 0.3f, Random.Range(-15f, 15f)), Quaternion.identity).GetComponent<MeshRenderer>();
+            MeshRenderer foodObjMeshRenderer = Instantiate(m_Food, new Vector3(Random.Range(-20f, 20f), 0.3f, Random.Range(-20f, 20f)), Quaternion.identity).GetComponent<MeshRenderer>();
             ChangeMaterialColour(foodObjMeshRenderer);
         }
     }

@@ -9,8 +9,6 @@ public class Fitness : MonoBehaviour
     public int fitness; //end of day fitness(used for total species fitness)
     public int curFitnessScore; //fitness during day(readability and seperate individual score)
 
-    private bool canReproduce;
-
     private void Awake()
     {
         foodcount = 0;

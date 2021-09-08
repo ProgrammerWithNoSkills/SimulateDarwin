@@ -50,7 +50,7 @@ public class DayManager : MonoBehaviour
         m_isSimStarted = true;
         m_dayEnded = false;
 
-        Spawning.SpawnFood(15);
+        Spawning.SpawnFood(50);
 
     }
 
@@ -119,11 +119,9 @@ public class DayManager : MonoBehaviour
         {
             Fitness creatureFitness = creature.GetComponent<Fitness>();
 
-            Debug.Log(creatureFitness.foodcount);
             if (creatureFitness.foodcount > 1)
             {
-                Debug.Log("I can bebe");
-                Vector3 spawnPos = new Vector3(0, 3, 0) + creature.transform.position;//place child to the side of parent
+                Vector3 spawnPos = new Vector3(0, 0, 0) + creature.transform.position;//place child to the side of parent NEED FIX TO OFFSET TOWARDS WORLD CENTER
                 GameObject newCreature = Instantiate(Spawning.m_Creature, spawnPos, Quaternion.identity);//instantiate child
 
                 CreatureManagement parentCreatureManagementComp = creature.GetComponent<CreatureManagement>();//get parent pathfinding ai component
@@ -132,9 +130,12 @@ public class DayManager : MonoBehaviour
                 MeshRenderer parentMeshRendererComp = creature.GetComponentInChildren(typeof(MeshRenderer)) as MeshRenderer;//get parent rendering component
                 MeshRenderer childMeshRendererComp = newCreature.GetComponentInChildren(typeof(MeshRenderer)) as MeshRenderer;//get child rendering component
 
-                /*------------- Inherit Traits from Parent -----------*/
-                childCreatureManagementComp.SetMoveSpeed(parentCreatureManagementComp.m_geneticMoveSpeed); //Set child movespeed to parent's move speed
-                childCreatureManagementComp.SetSigtRange(parentCreatureManagementComp.m_geneticSightRange); //Set child sightrange to parent's sightrange
+                /*------------- Inherit Traits from Parent And Mutate -----------*/
+                //Set child movespeed to parent's move speed plus mutation offset
+                childCreatureManagementComp.SetMoveSpeed(parentCreatureManagementComp.m_geneticMoveSpeed += Random.Range(-1f, 1f));
+
+                //Set child sightrange to parent's sightrange plus mutation offset
+                childCreatureManagementComp.SetSigtRange(parentCreatureManagementComp.m_geneticSightRange += Random.Range(-2f, 2f));
 
                 //set child colour to parent colour
                 if (parentMeshRendererComp != null && childMeshRendererComp != null)
@@ -144,7 +145,7 @@ public class DayManager : MonoBehaviour
 
                 //set child mass to parent mass, plus offset mutation
                 childCreatureManagementComp.SetGeneticMass(parentCreatureManagementComp.GetGeneticMass() + Random.Range(-20f, 20f)); //adjust RandomRange value to change mutation rates.
-                /*------------------------ End -----------------------*/
+                /*----------------------------- End ----------------------------*/
 
                 creatureFitness.offspring++;
             }
