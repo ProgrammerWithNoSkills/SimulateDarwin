@@ -30,9 +30,9 @@ public class CreatureManagement : MonoBehaviour
 
         //init variables for first generation, need to randomise for variation and mutation.
         //randomise genetic values
-        m_geneticMass = Random.Range(80f, 150f);
-        m_geneticMoveSpeed = Random.Range(4f, 6f);
-        m_geneticSightRange = Random.Range(12f, 18f);
+        m_geneticMass = 100f + Random.Range(-20f, 20f);
+        m_geneticMoveSpeed = 5f + Random.Range(-1f, 1f);
+        m_geneticSightRange = 15f + Random.Range(-3f, 3f);
     }
 
     private void FixedUpdate()
