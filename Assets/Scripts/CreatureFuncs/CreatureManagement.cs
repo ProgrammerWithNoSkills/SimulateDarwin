@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PathfindingAI : MonoBehaviour
+public class CreatureManagement : MonoBehaviour
 {
     private NavMeshAgent m_agent;
 
@@ -9,39 +9,52 @@ public class PathfindingAI : MonoBehaviour
 
     public LayerMask whatIsGround, whatIsFood;
 
-    public float timeSpeed = 1f; //edit this value to speed up sim
+    public float timeSpeed; //edit this value to speed up sim
 
+    //genetics
+    public float m_geneticMoveSpeed, m_geneticMass;
+    
     //Patrolling
     public Vector3 walkPoint;
     bool walkPointSet;
     public float walkPointRange;
 
     //States
-    public float sightRange;
+    public float m_geneticSightRange;
     public bool targetInSightRange;
 
     private void Awake()
     {
         m_agent = GetComponent<NavMeshAgent>();
+        timeSpeed = 1f;
+
+        //init variables for first generation, need to randomise for variation and mutation.
+        m_geneticMoveSpeed = 5f;
+        m_geneticSightRange = 15f;
+        //randomise mass
+        m_geneticMass = Random.Range(80f, 150f);
     }
 
     private void FixedUpdate()
     {
+        //if the sim is ended set speed to 0.
+        if (DayManager.m_isSimStarted == false && m_agent.hasPath)
+        {
+            SetMovementNull();
+            return;
+        }
+        else if (DayManager.m_isSimStarted == false)
+        {
+            SetMovementNull();
+            return;
+        }
+
         Time.timeScale = timeSpeed;
 
-        //if the sim is ended reset path.
-        if (!DayManager.m_isSimStarted && m_agent.hasPath)
-        {
-            m_agent.ResetPath();
-            return;
-        }
-        else if (!DayManager.m_isSimStarted)
-        {
-            return;
-        }
+        if (m_agent.speed == 0f && m_agent.angularSpeed == 0f) UpdateMoveSpeed(m_geneticMoveSpeed);//if passed set speed back to normal
 
         //Check for sight range
-        targetInSightRange = Physics.CheckSphere(this.transform.position, sightRange, whatIsFood);
+        targetInSightRange = Physics.CheckSphere(this.transform.position, m_geneticSightRange, whatIsFood);
 
         //find and assign target object
         try
@@ -125,5 +138,36 @@ public class PathfindingAI : MonoBehaviour
             return closest;
         }
         return null;
+    }
+
+    public void SetMoveSpeed(float newMoveSpeed)//set genetic move speed
+    {
+        this.m_geneticMoveSpeed = newMoveSpeed;
+    }
+
+    public void UpdateMoveSpeed(float newMoveSpeed)//update move speed
+    {
+        this.m_agent.speed = newMoveSpeed;
+    }
+
+    public void SetSigtRange(float newSightRange)
+    {
+        this.m_geneticSightRange = newSightRange;
+    }
+
+    public void SetGeneticMass(float newGeneticMass)
+    {
+        this.m_geneticMass = newGeneticMass;
+    }
+
+    public float GetGeneticMass()
+    {
+        return this.m_geneticMass;
+    }
+
+    public void SetMovementNull()
+    {
+        this.m_agent.angularSpeed = 0f;
+        this.m_agent.speed = 0f;
     }
 }

@@ -6,28 +6,23 @@ public class Fitness : MonoBehaviour
 {
     public int foodcount;
     public int offspring;
-    public int fitness;
+    public int fitness; //end of day fitness(used for total species fitness)
+    public int curFitnessScore; //fitness during day(readability and seperate individual score)
+
+    private bool canReproduce;
 
     private void Awake()
     {
         foodcount = 0;
-        offspring = 1;
+        offspring = 0;
+        curFitnessScore = 0;
     }
 
-    private void Update()
-    {
-        UpdateFitness();
-    }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Food")
         {
-            foodcount++;
+            this.foodcount++;
         }
-    }
-
-    void UpdateFitness()
-    {
-        fitness = foodcount * offspring;
     }
 }

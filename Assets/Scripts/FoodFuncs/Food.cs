@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Food : MonoBehaviour
-{ 
-    public void OnCollisionEnter()
+{
+    private void OnCollisionEnter(Collision collision)
     {
-        Destroy(this.gameObject);
+        if (collision.gameObject.tag == "Creature")
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

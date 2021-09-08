@@ -9,7 +9,7 @@ public class Spawning : MonoBehaviour
 
     public static float m_xSpawnCoord, m_ySpawnCoord;
 
-    static GameObject m_Creature, m_Food;
+    public static GameObject m_Creature, m_Food;
 
     void Start()
     {
@@ -37,7 +37,7 @@ public class Spawning : MonoBehaviour
     {
         for (int i = 1; i <= numToSpawn; i++)
         {
-            MeshRenderer foodObjMeshRenderer = Instantiate(m_Food, new Vector3(Random.Range(-15f, 15f), 0f, Random.Range(-15f, 15f)), Quaternion.identity).GetComponent<MeshRenderer>();
+            MeshRenderer foodObjMeshRenderer = Instantiate(m_Food, new Vector3(Random.Range(-15f, 15f), 0.3f, Random.Range(-15f, 15f)), Quaternion.identity).GetComponent<MeshRenderer>();
             ChangeMaterialColour(foodObjMeshRenderer);
         }
     }
@@ -125,13 +125,16 @@ public class Spawning : MonoBehaviour
     /*-----------------------------------------------------*/
     //End Spawn Funcs
 
-    public static void EndOfDayTPCreaturesToEdge()
+    public static IEnumerator EndOfDayTPCreaturesToEdge(GameObject[] creatures)
     {
-        GameObject[] creatures = GameObject.FindGameObjectsWithTag("Creature");
+        yield return new WaitForSeconds(0.1f);
 
         //reset locations to edge of map
         for (int i = 0; i < creatures.Length; i++)
         {
+
+            if (creatures[i].GetComponent<DieAnim>().isDead) continue; //If creature is dead don't tp them to edge
+
             int spawnSide = Random.Range(1, 5);
             //Debug.Log(spawnSide);
             switch (spawnSide)
@@ -156,4 +159,5 @@ public class Spawning : MonoBehaviour
         }
 
     }
+
 }

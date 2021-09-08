@@ -9,6 +9,5 @@ public class SpeciesColour : MonoBehaviour
     {
         creatureBody = this.gameObject;
         creatureBody.GetComponent<MeshRenderer>().material.color = Random.ColorHSV();
-
     }
 }
