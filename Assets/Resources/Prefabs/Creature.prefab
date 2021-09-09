@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5752079996937574306}
   - component: {fileID: 5752079996937574309}
   - component: {fileID: 5752079996937574304}
-  - component: {fileID: 7860255323107268316}
   - component: {fileID: 5470646945062554686}
   - component: {fileID: 7885984827679322913}
   m_Layer: 8
@@ -56,7 +55,6 @@ MonoBehaviour:
   whatIsFood:
     serializedVersion: 2
     m_Bits: 512
-  timeSpeed: 1
   m_geneticMoveSpeed: 0
   m_geneticMass: 0
   walkPoint: {x: 0, y: 0, z: 0}
@@ -101,19 +99,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
---- !u!114 &7860255323107268316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5752079996937574305}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fb029789d97742408bfd9d0dffd2882, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UUID: 0
 --- !u!114 &5470646945062554686
 MonoBehaviour:
   m_ObjectHideFlags: 0

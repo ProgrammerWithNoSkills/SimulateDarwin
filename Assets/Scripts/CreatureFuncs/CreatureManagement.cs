@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
+[SerializeField]
 public class CreatureManagement : MonoBehaviour
 {
     private NavMeshAgent m_agent;
@@ -8,6 +9,8 @@ public class CreatureManagement : MonoBehaviour
     public Transform m_target;
 
     public LayerMask whatIsGround, whatIsFood;
+
+    public int m_UUID;
 
     //genetics
     public float m_geneticMoveSpeed, m_geneticMass;
@@ -24,6 +27,7 @@ public class CreatureManagement : MonoBehaviour
     private void Awake()
     {
         m_agent = GetComponent<NavMeshAgent>();
+        m_UUID = Random.Range(0, 2147483647);
 
         //init variables for first generation, need to randomise for variation and mutation.
         //randomise genetic values

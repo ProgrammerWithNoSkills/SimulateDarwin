@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.IO;
 
 public class DayManager : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class DayManager : MonoBehaviour
         m_dayCount = 0;
         m_isSimStarted = false;
         m_dayEnded = true;
-        m_timeSpeed = 10f;
+        m_timeSpeed = 3f;
     }
 
     private void FixedUpdate()
@@ -79,6 +80,7 @@ public class DayManager : MonoBehaviour
 
         StartCoroutine(Reproduce(GameObject.FindGameObjectsWithTag("Creature")));
         StartCoroutine(UpdateFitness(GameObject.FindGameObjectsWithTag("Creature")));
+        StartCoroutine(ExtractDataIntoJsonFile(GameObject.FindGameObjectsWithTag("Creature")));
     }
     
     //End of day functions to run.
@@ -155,4 +157,37 @@ public class DayManager : MonoBehaviour
         }
     }
     /*-------------------------------------*/
+
+    IEnumerator ExtractDataIntoJsonFile(GameObject[] creatures)
+    {
+        yield return new WaitForSeconds(1.5f / m_timeSpeed);
+
+        List<string> speciesList = new List<string>();
+
+        foreach (GameObject creature in creatures)
+        {
+            List<string> creatureList = new List<string>();
+
+            CreatureManagementUtility creatureManagementComp = creature.GetComponent<CreatureManagementUtility>();
+
+            string jsonCreatureSpeciesUUID = JsonUtility.ToJson(creatureManagementComp);
+            creatureList.Add(jsonCreatureSpeciesUUID);
+
+            string creatureListString = string.Join(",", creatureList);
+            speciesList.Add(creatureListString);
+        }
+
+        string speciesArrayString = JsonUtility.ToJson(string.Join(",", speciesList));
+
+        //Writing into a JSON file in the persistent path
+        using (FileStream fs = new FileStream(
+                Path.Combine(Application.dataPath + "/Data", $"Day_{m_dayCount}" + ".json"),
+                FileMode.Create))
+        {
+            BinaryWriter filewriter = new BinaryWriter(fs);
+            Debug.Log(fs.Name);
+            filewriter.Write(speciesArrayString);
+            fs.Close();
+        }
+    }
 }
