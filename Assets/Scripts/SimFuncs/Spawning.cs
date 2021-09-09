@@ -19,10 +19,10 @@ public class Spawning : MonoBehaviour
         //test spawning
         if (m_Creature)
         {
-            SpawnAlongXLine(4, 25f, 25f);
-            SpawnAlongNegXLine(5, 25f, 25f);
-            SpawnAlongZLine(6, 25f, 25f);
-            SpawnAlongNegZLine(5, 25f, 25f);
+            SpawnAlongXLine(1, 25f, 25f);
+            SpawnAlongNegXLine(0, 25f, 25f);
+            SpawnAlongZLine(1, 25f, 25f);
+            SpawnAlongNegZLine(0, 25f, 25f);
         }
     }
 

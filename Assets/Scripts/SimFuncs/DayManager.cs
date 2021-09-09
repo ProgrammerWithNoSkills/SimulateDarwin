@@ -54,7 +54,7 @@ public class DayManager : MonoBehaviour
         m_isSimStarted = true;
         m_dayEnded = false;
 
-        Spawning.SpawnFood(50);
+        Spawning.SpawnFood(10);
 
     }
 
@@ -170,15 +170,24 @@ public class DayManager : MonoBehaviour
 
             CreatureManagement creatureManagementComp = creature.GetComponent<CreatureManagement>();
 
-            string jsonCreatureSpecies = JsonUtility.ToJson(creatureManagementComp, true);
-            Debug.Log(jsonCreatureSpecies);
-            creatureList.Add(jsonCreatureSpecies);
+            string jsonCreatureSpecies = JsonUtility.ToJson(creatureManagementComp, true).ToString();
 
-            string creatureListString = string.Join(",", creatureList);
-            speciesList.Add(creatureListString);
+            //wrap values in creatureGameObjectUUID
+            string wrappedJsonCreatureSpecies = $"\"{creature.GetInstanceID().ToString()}\" : "  + jsonCreatureSpecies;
+
+            speciesList.Add(wrappedJsonCreatureSpecies);
         }
 
-        string speciesArrayString = JsonUtility.ToJson(string.Join(",", speciesList));
+        string speciesArrayString = string.Join(",\n", speciesList);
+
+        //wrap data in Day and array to prime for writing
+        string wrappedSpeciesArrayString = "{\n" + $"\"Day_{m_dayCount}\"\n : " + "{\n" + speciesArrayString + "\n}" + "\n}";
+
+        //lint
+        //string prelintedSpeciesArrayString = JsonUtility.FromJson<string>(wrappedSpeciesArrayString);
+        //Debug.Log(prelintedSpeciesArrayString);
+        //string lintedSpeciesArrayString = JsonUtility.ToJson(prelintedSpeciesArrayString, true);
+        //Debug.Log(lintedSpeciesArrayString);
 
         //Writing into a JSON file in the persistent path
         using (FileStream fs = new FileStream(
@@ -187,7 +196,7 @@ public class DayManager : MonoBehaviour
         {
             BinaryWriter filewriter = new BinaryWriter(fs);
             Debug.Log(fs.Name);
-            filewriter.Write(speciesArrayString);
+            filewriter.Write(wrappedSpeciesArrayString);
             fs.Close();
         }
     }
