@@ -1,14 +1,13 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-[SerializeField]
 public class CreatureManagement : MonoBehaviour
 {
-    private NavMeshAgent m_agent;
+    NavMeshAgent m_agent;
 
-    public Transform m_target;
+    Transform m_target;
 
-    public LayerMask whatIsGround, whatIsFood;
+    LayerMask whatIsGround, whatIsFood;
 
     public int m_UUID;
 
@@ -16,19 +15,24 @@ public class CreatureManagement : MonoBehaviour
     public float m_geneticMoveSpeed, m_geneticMass;
     
     //Patrolling
-    public Vector3 walkPoint;
+    Vector3 walkPoint;
     bool walkPointSet;
-    public float walkPointRange;
+    float walkPointRange;
 
     //States
     public float m_geneticSightRange;
-    public bool targetInSightRange;
+
+    bool targetInSightRange;
 
     private void Awake()
     {
         m_agent = GetComponent<NavMeshAgent>();
         m_UUID = Random.Range(0, 2147483647);
+        walkPointRange = 10f;
 
+        //set layers
+        whatIsFood = LayerMask.NameToLayer("whatIsFood");
+        whatIsGround = LayerMask.NameToLayer("whatIsGround");
         //init variables for first generation, need to randomise for variation and mutation.
         //randomise genetic values
         m_geneticMass = 100f + Random.Range(-20f, 20f);

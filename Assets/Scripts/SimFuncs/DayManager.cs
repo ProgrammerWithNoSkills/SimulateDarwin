@@ -168,10 +168,11 @@ public class DayManager : MonoBehaviour
         {
             List<string> creatureList = new List<string>();
 
-            CreatureManagementUtility creatureManagementComp = creature.GetComponent<CreatureManagementUtility>();
+            CreatureManagement creatureManagementComp = creature.GetComponent<CreatureManagement>();
 
-            string jsonCreatureSpeciesUUID = JsonUtility.ToJson(creatureManagementComp);
-            creatureList.Add(jsonCreatureSpeciesUUID);
+            string jsonCreatureSpecies = JsonUtility.ToJson(creatureManagementComp, true);
+            Debug.Log(jsonCreatureSpecies);
+            creatureList.Add(jsonCreatureSpecies);
 
             string creatureListString = string.Join(",", creatureList);
             speciesList.Add(creatureListString);
