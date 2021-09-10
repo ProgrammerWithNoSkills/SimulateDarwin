@@ -157,9 +157,12 @@ public class DayManager : MonoBehaviour
 
                 /*------------- Inherit Traits from Parent And Mutate -----------*/
                 //Set child movespeed to parent's move speed plus mutation offset
-                childCreatureManagementComp.SetMoveSpeed(
-                    parentCreatureManagementComp.m_geneticMoveSpeed += 
-                    Random.Range(-1f * parentCreatureManagementComp.m_mutationRate, 1f * parentCreatureManagementComp.m_mutationRate));
+                float tryInheritMoveSpeedValue =
+                    parentCreatureManagementComp.m_geneticMoveSpeed +=
+                    Random.Range(-1f * parentCreatureManagementComp.m_mutationRate, 1f * parentCreatureManagementComp.m_mutationRate);
+                //unrealistic, basically try to prevent move speed from going negative
+                if (tryInheritMoveSpeedValue < 5f) tryInheritMoveSpeedValue = 5f;
+                childCreatureManagementComp.SetMoveSpeed(tryInheritMoveSpeedValue);
 
                 //Set child sightrange to parent's sightrange plus mutation offset
                 childCreatureManagementComp.SetSigtRange(parentCreatureManagementComp.m_geneticSightRange += 
