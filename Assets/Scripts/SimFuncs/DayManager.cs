@@ -20,7 +20,7 @@ public class DayManager : MonoBehaviour
         m_dayCount = 0;
         m_isSimStarted = false;
         m_dayEnded = true;
-        m_timeSpeed = 3f;
+        m_timeSpeed = 5f;
     }
 
     private void FixedUpdate()
@@ -54,7 +54,7 @@ public class DayManager : MonoBehaviour
         m_isSimStarted = true;
         m_dayEnded = false;
 
-        Spawning.SpawnFood(10);
+        Spawning.SpawnFood(60);
 
     }
 
@@ -181,11 +181,9 @@ public class DayManager : MonoBehaviour
         //wrap data in Day and array to prime for writing
         string wrappedSpeciesArrayString = "{\n" + $"\"Day_{m_dayCount}\"\n : " + "{\n" + speciesArrayString + "\n}" + "\n}";
 
-        //lint
-        //string prelintedSpeciesArrayString = JsonUtility.FromJson<string>(wrappedSpeciesArrayString);
-        //Debug.Log(prelintedSpeciesArrayString);
+        //lint: cannot use FromJson. Can use FromJsonOverwrite but that would overwrite the values that have already changed so yeaahh
+        //CreatureManagement prelintedSpeciesArrayString = JsonUtility.FromJson<CreatureManagement>(wrappedSpeciesArrayString);
         //string lintedSpeciesArrayString = JsonUtility.ToJson(prelintedSpeciesArrayString, true);
-        //Debug.Log(lintedSpeciesArrayString);
 
         //Writing into a JSON file in Data folder. (this folder is in gitignore)
         File.WriteAllText(Application.dataPath + "/Data" + $"/Day_{m_dayCount}" + ".json", wrappedSpeciesArrayString);
