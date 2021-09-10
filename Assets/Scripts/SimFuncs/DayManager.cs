@@ -166,8 +166,6 @@ public class DayManager : MonoBehaviour
 
         foreach (GameObject creature in creatures)
         {
-            List<string> creatureList = new List<string>();
-
             CreatureManagement creatureManagementComp = creature.GetComponent<CreatureManagement>();
 
             string jsonCreatureSpecies = JsonUtility.ToJson(creatureManagementComp, true).ToString();
@@ -189,15 +187,7 @@ public class DayManager : MonoBehaviour
         //string lintedSpeciesArrayString = JsonUtility.ToJson(prelintedSpeciesArrayString, true);
         //Debug.Log(lintedSpeciesArrayString);
 
-        //Writing into a JSON file in the persistent path
-        using (FileStream fs = new FileStream(
-                Path.Combine(Application.dataPath + "/Data", $"Day_{m_dayCount}" + ".json"),
-                FileMode.Create))
-        {
-            BinaryWriter filewriter = new BinaryWriter(fs);
-            Debug.Log(fs.Name);
-            filewriter.Write(wrappedSpeciesArrayString);
-            fs.Close();
-        }
+        //Writing into a JSON file in Data folder. (this folder is in gitignore)
+        File.WriteAllText(Application.dataPath + "/Data" + $"/Day_{m_dayCount}" + ".json", wrappedSpeciesArrayString);
     }
 }
