@@ -9,10 +9,10 @@ public class CreatureManagement : MonoBehaviour
 
     LayerMask whatIsGround, whatIsFood;
 
-    public int m_UUID;
+    public int m_speciesID;
 
     //genetics
-    public float m_geneticMoveSpeed, m_geneticMass;
+    public float m_geneticMoveSpeed, m_geneticMass, m_mutationRate;
     
     //Patrolling
     Vector3 walkPoint;
@@ -27,7 +27,7 @@ public class CreatureManagement : MonoBehaviour
     private void Awake()
     {
         m_agent = GetComponent<NavMeshAgent>();
-        m_UUID = Random.Range(0, 2147483647);
+        m_speciesID = Random.Range(0, 2147483647);
         walkPointRange = 10f;
 
         //set layers
@@ -38,6 +38,7 @@ public class CreatureManagement : MonoBehaviour
         m_geneticMass = 100f + Random.Range(-20f, 20f);
         m_geneticMoveSpeed = 5f + Random.Range(-1f, 1f);
         m_geneticSightRange = 8f + Random.Range(-1.5f, 1.5f);
+        m_mutationRate = 1f + Random.Range(-0.1f, 0.1f);
     }
 
     private void FixedUpdate()
@@ -168,6 +169,16 @@ public class CreatureManagement : MonoBehaviour
     public float GetGeneticMass()
     {
         return this.m_geneticMass;
+    }
+
+    public void SetMutationRate(float newMutationRate)
+    {
+        this.m_mutationRate = newMutationRate;
+    }
+
+    public float GetMutationRate()
+    {
+        return this.m_mutationRate;
     }
 
     public void SetMovementNull()

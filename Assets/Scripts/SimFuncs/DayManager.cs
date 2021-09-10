@@ -157,10 +157,13 @@ public class DayManager : MonoBehaviour
 
                 /*------------- Inherit Traits from Parent And Mutate -----------*/
                 //Set child movespeed to parent's move speed plus mutation offset
-                childCreatureManagementComp.SetMoveSpeed(parentCreatureManagementComp.m_geneticMoveSpeed += Random.Range(-1f, 1f));
+                childCreatureManagementComp.SetMoveSpeed(
+                    parentCreatureManagementComp.m_geneticMoveSpeed += 
+                    Random.Range(-1f * parentCreatureManagementComp.m_mutationRate, 1f * parentCreatureManagementComp.m_mutationRate));
 
                 //Set child sightrange to parent's sightrange plus mutation offset
-                childCreatureManagementComp.SetSigtRange(parentCreatureManagementComp.m_geneticSightRange += Random.Range(-2f, 2f));
+                childCreatureManagementComp.SetSigtRange(parentCreatureManagementComp.m_geneticSightRange += 
+                    Random.Range(-2f * parentCreatureManagementComp.m_mutationRate, 2f * parentCreatureManagementComp.m_mutationRate));
 
                 //set child colour to parent colour
                 if (parentMeshRendererComp != null && childMeshRendererComp != null)
@@ -169,7 +172,16 @@ public class DayManager : MonoBehaviour
                 }
 
                 //set child mass to parent mass, plus offset mutation
-                childCreatureManagementComp.SetGeneticMass(parentCreatureManagementComp.GetGeneticMass() + Random.Range(-20f, 20f)); //adjust RandomRange value to change mutation rates.
+                childCreatureManagementComp.SetGeneticMass(
+                    parentCreatureManagementComp.GetGeneticMass() + 
+                    Random.Range(-20f * parentCreatureManagementComp.m_mutationRate, 20f * parentCreatureManagementComp.m_mutationRate));
+                    //adjust RandomRange value to change mutation rates.
+
+                //inherit mutation rate from parent and mutate the mutation rate by multiplying it by itself!!!!!
+                childCreatureManagementComp.SetMutationRate(
+                    parentCreatureManagementComp.GetMutationRate() * 
+                    parentCreatureManagementComp.GetMutationRate()
+                    );
                 /*----------------------------- End ----------------------------*/
 
                 creatureFitness.offspring++;
