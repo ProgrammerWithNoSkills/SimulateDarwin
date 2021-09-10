@@ -423,3 +423,4 @@ FodyWeavers.xsd
 .Library/
 .Logs/
 UserSettings/EditorUserSettings.asset
+Assets/Data

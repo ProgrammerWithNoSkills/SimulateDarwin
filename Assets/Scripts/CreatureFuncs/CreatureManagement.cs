@@ -3,33 +3,42 @@ using UnityEngine.AI;
 
 public class CreatureManagement : MonoBehaviour
 {
-    private NavMeshAgent m_agent;
+    NavMeshAgent m_agent;
 
-    public Transform m_target;
+    Transform m_target;
 
-    public LayerMask whatIsGround, whatIsFood;
+    LayerMask whatIsGround, whatIsFood;
+
+    public int m_speciesID;
 
     //genetics
-    public float m_geneticMoveSpeed, m_geneticMass;
+    public float m_geneticMoveSpeed, m_geneticMass, m_mutationRate;
     
     //Patrolling
-    public Vector3 walkPoint;
+    Vector3 walkPoint;
     bool walkPointSet;
-    public float walkPointRange;
+    float walkPointRange;
 
     //States
     public float m_geneticSightRange;
-    public bool targetInSightRange;
+
+    bool targetInSightRange;
 
     private void Awake()
     {
         m_agent = GetComponent<NavMeshAgent>();
+        m_speciesID = Random.Range(0, 2147483647);
+        walkPointRange = 10f;
 
+        //set layers
+        whatIsFood = LayerMask.NameToLayer("whatIsFood");
+        whatIsGround = LayerMask.NameToLayer("whatIsGround");
         //init variables for first generation, need to randomise for variation and mutation.
         //randomise genetic values
         m_geneticMass = 100f + Random.Range(-20f, 20f);
         m_geneticMoveSpeed = 5f + Random.Range(-1f, 1f);
-        m_geneticSightRange = 15f + Random.Range(-3f, 3f);
+        m_geneticSightRange = 8f + Random.Range(-1.5f, 1.5f);
+        m_mutationRate = 1f + Random.Range(-0.1f, 0.1f);
     }
 
     private void FixedUpdate()
@@ -160,6 +169,16 @@ public class CreatureManagement : MonoBehaviour
     public float GetGeneticMass()
     {
         return this.m_geneticMass;
+    }
+
+    public void SetMutationRate(float newMutationRate)
+    {
+        this.m_mutationRate = newMutationRate;
+    }
+
+    public float GetMutationRate()
+    {
+        return this.m_mutationRate;
     }
 
     public void SetMovementNull()

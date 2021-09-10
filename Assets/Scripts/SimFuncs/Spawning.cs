@@ -7,7 +7,7 @@ public class Spawning : MonoBehaviour
 
     public static int m_StartingNumOfCreatures;
 
-    public static float m_xSpawnCoord, m_ySpawnCoord;
+    public static float m_xSpawnCoord, m_ySpawnCoord, m_foodDistanceFromCentre;
 
     public static GameObject m_Creature, m_Food;
 
@@ -16,13 +16,15 @@ public class Spawning : MonoBehaviour
         m_Creature = Resources.Load("Prefabs/Creature") as GameObject;
         m_Food = Resources.Load("Prefabs/Food") as GameObject;
 
+        m_foodDistanceFromCentre = 23f;
+
         //test spawning
         if (m_Creature)
         {
-            SpawnAlongXLine(4, 25f, 25f);
-            SpawnAlongNegXLine(5, 25f, 25f);
+            SpawnAlongXLine(6, 25f, 25f);
+            SpawnAlongNegXLine(6, 25f, 25f);
             SpawnAlongZLine(6, 25f, 25f);
-            SpawnAlongNegZLine(5, 25f, 25f);
+            SpawnAlongNegZLine(6, 25f, 25f);
         }
     }
 
@@ -37,7 +39,14 @@ public class Spawning : MonoBehaviour
     {
         for (int i = 1; i <= numToSpawn; i++)
         {
-            MeshRenderer foodObjMeshRenderer = Instantiate(m_Food, new Vector3(Random.Range(-20f, 20f), 0.3f, Random.Range(-20f, 20f)), Quaternion.identity).GetComponent<MeshRenderer>();
+            MeshRenderer foodObjMeshRenderer = Instantiate(
+                m_Food, 
+                new Vector3(Random.Range(-m_foodDistanceFromCentre, m_foodDistanceFromCentre), 
+                0.26f, 
+                Random.Range(-m_foodDistanceFromCentre, m_foodDistanceFromCentre)), 
+                Quaternion.identity)
+                .GetComponent<MeshRenderer>();
+
             ChangeMaterialColour(foodObjMeshRenderer);
         }
     }

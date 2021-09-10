@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.IO;
 
 public class DayManager : MonoBehaviour
 {
     private static TMP_Text m_textComponent;
     private static int m_dayCount;
-    public static bool m_isSimStarted;
-    private static bool m_dayEnded;
+    public static bool m_isSimStarted, m_dayCalculated;
+    private static bool m_dayEnded, m_autoStartDay;
+
+    public string m_toggleAutoRunSimKey;
 
     public static float m_timeSpeed; //edit this to change sim speed
 
@@ -18,13 +21,31 @@ public class DayManager : MonoBehaviour
         m_textComponent.text = " Day 0";
         m_dayCount = 0;
         m_isSimStarted = false;
+        m_dayCalculated = false;
+        m_autoStartDay = false;
         m_dayEnded = true;
-        m_timeSpeed = 10f;
+        m_toggleAutoRunSimKey = "p";
+        m_timeSpeed = 5f;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
+        //toggle auto running sim
+        if (Input.GetKeyDown(m_toggleAutoRunSimKey))
+        {
+            m_autoStartDay = onButtonPressToggleAutoRunSim();
+        }
 
+        //autorun sim if it's supposed to and the day has already been calculated.
+        if (m_autoStartDay && m_dayCalculated)
+        {
+            BeginSim();
+            m_dayCalculated = false;
+        }
+    }
+
+    void FixedUpdate()
+    {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (m_isSimStarted == false)
@@ -43,7 +64,6 @@ public class DayManager : MonoBehaviour
         {
             EndDay();
         }
-
     }
 
     public void BeginSim()
@@ -53,7 +73,7 @@ public class DayManager : MonoBehaviour
         m_isSimStarted = true;
         m_dayEnded = false;
 
-        Spawning.SpawnFood(50);
+        Spawning.SpawnFood(60);
 
     }
 
@@ -70,6 +90,7 @@ public class DayManager : MonoBehaviour
 
         m_isSimStarted = false;
         m_dayEnded = true;
+        m_dayCalculated = false;
 
         //Find twice cause the creatures reproduce between this
         LiveOrDie(GameObject.FindGameObjectsWithTag("Creature"));
@@ -79,6 +100,7 @@ public class DayManager : MonoBehaviour
 
         StartCoroutine(Reproduce(GameObject.FindGameObjectsWithTag("Creature")));
         StartCoroutine(UpdateFitness(GameObject.FindGameObjectsWithTag("Creature")));
+        StartCoroutine(ExtractDataIntoJsonFile(GameObject.FindGameObjectsWithTag("Creature")));
     }
     
     //End of day functions to run.
@@ -135,10 +157,13 @@ public class DayManager : MonoBehaviour
 
                 /*------------- Inherit Traits from Parent And Mutate -----------*/
                 //Set child movespeed to parent's move speed plus mutation offset
-                childCreatureManagementComp.SetMoveSpeed(parentCreatureManagementComp.m_geneticMoveSpeed += Random.Range(-1f, 1f));
+                childCreatureManagementComp.SetMoveSpeed(
+                    parentCreatureManagementComp.m_geneticMoveSpeed += 
+                    Random.Range(-1f * parentCreatureManagementComp.m_mutationRate, 1f * parentCreatureManagementComp.m_mutationRate));
 
                 //Set child sightrange to parent's sightrange plus mutation offset
-                childCreatureManagementComp.SetSigtRange(parentCreatureManagementComp.m_geneticSightRange += Random.Range(-2f, 2f));
+                childCreatureManagementComp.SetSigtRange(parentCreatureManagementComp.m_geneticSightRange += 
+                    Random.Range(-2f * parentCreatureManagementComp.m_mutationRate, 2f * parentCreatureManagementComp.m_mutationRate));
 
                 //set child colour to parent colour
                 if (parentMeshRendererComp != null && childMeshRendererComp != null)
@@ -147,7 +172,16 @@ public class DayManager : MonoBehaviour
                 }
 
                 //set child mass to parent mass, plus offset mutation
-                childCreatureManagementComp.SetGeneticMass(parentCreatureManagementComp.GetGeneticMass() + Random.Range(-20f, 20f)); //adjust RandomRange value to change mutation rates.
+                childCreatureManagementComp.SetGeneticMass(
+                    parentCreatureManagementComp.GetGeneticMass() + 
+                    Random.Range(-20f * parentCreatureManagementComp.m_mutationRate, 20f * parentCreatureManagementComp.m_mutationRate));
+                    //adjust RandomRange value to change mutation rates.
+
+                //inherit mutation rate from parent and mutate the mutation rate by multiplying it by itself!!!!!
+                childCreatureManagementComp.SetMutationRate(
+                    parentCreatureManagementComp.GetMutationRate() * 
+                    parentCreatureManagementComp.GetMutationRate()
+                    );
                 /*----------------------------- End ----------------------------*/
 
                 creatureFitness.offspring++;
@@ -155,4 +189,43 @@ public class DayManager : MonoBehaviour
         }
     }
     /*-------------------------------------*/
+
+    IEnumerator ExtractDataIntoJsonFile(GameObject[] creatures)
+    {
+        yield return new WaitForSeconds(1.5f / m_timeSpeed);
+
+        List<string> speciesList = new List<string>();
+
+        foreach (GameObject creature in creatures)
+        {
+            CreatureManagement creatureManagementComp = creature.GetComponent<CreatureManagement>();
+
+            string jsonCreatureSpecies = JsonUtility.ToJson(creatureManagementComp, true).ToString();
+
+            //wrap values in creatureGameObjectUUID
+            string wrappedJsonCreatureSpecies = $"\"{creature.GetInstanceID().ToString()}\" : "  + jsonCreatureSpecies;
+
+            speciesList.Add(wrappedJsonCreatureSpecies);
+        }
+
+        string speciesArrayString = string.Join(",\n", speciesList);
+
+        //wrap data in Day and array to prime for writing
+        string wrappedSpeciesArrayString = "{\n" + $"\"Day_{m_dayCount}\"\n : " + "{\n" + speciesArrayString + "\n}" + "\n}";
+
+        //lint: cannot use FromJson. Can use FromJsonOverwrite but that would overwrite the values that have already changed so yeaahh
+        //CreatureManagement prelintedSpeciesArrayString = JsonUtility.FromJson<CreatureManagement>(wrappedSpeciesArrayString);
+        //string lintedSpeciesArrayString = JsonUtility.ToJson(prelintedSpeciesArrayString, true);
+
+        //Writing into a JSON file in Data folder. (this folder is in gitignore)
+        File.WriteAllText(Application.dataPath + "/Data" + $"/Day_{m_dayCount}" + ".json", wrappedSpeciesArrayString);
+
+        m_dayCalculated = true;
+    }
+
+    bool onButtonPressToggleAutoRunSim()
+    {
+            if (m_autoStartDay) return false;
+            return true;
+    }
 }
