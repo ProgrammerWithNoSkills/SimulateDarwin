@@ -37,7 +37,7 @@ public class CreatureManagement : MonoBehaviour
         //randomise genetic values
         m_geneticMass = 100f + Random.Range(-20f, 20f);
         m_geneticMoveSpeed = 5f + Random.Range(-1f, 1f);
-        m_geneticSightRange = 15f + Random.Range(-3f, 3f);
+        m_geneticSightRange = 8f + Random.Range(-1.5f, 1.5f);
     }
 
     private void FixedUpdate()

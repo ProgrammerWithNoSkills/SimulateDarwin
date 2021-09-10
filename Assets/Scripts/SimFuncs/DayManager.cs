@@ -8,8 +8,10 @@ public class DayManager : MonoBehaviour
 {
     private static TMP_Text m_textComponent;
     private static int m_dayCount;
-    public static bool m_isSimStarted;
-    private static bool m_dayEnded;
+    public static bool m_isSimStarted, m_dayCalculated;
+    private static bool m_dayEnded, m_autoStartDay;
+
+    public string m_toggleAutoRunSimKey;
 
     public static float m_timeSpeed;
 
@@ -19,13 +21,31 @@ public class DayManager : MonoBehaviour
         m_textComponent.text = " Day 0";
         m_dayCount = 0;
         m_isSimStarted = false;
+        m_dayCalculated = false;
+        m_autoStartDay = false;
         m_dayEnded = true;
+        m_toggleAutoRunSimKey = "p";
         m_timeSpeed = 5f;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
+        //toggle auto running sim
+        if (Input.GetKeyDown(m_toggleAutoRunSimKey))
+        {
+            m_autoStartDay = onButtonPressToggleAutoRunSim();
+        }
 
+        //autorun sim if it's supposed to and the day has already been calculated.
+        if (m_autoStartDay && m_dayCalculated)
+        {
+            BeginSim();
+            m_dayCalculated = false;
+        }
+    }
+
+    void FixedUpdate()
+    {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (m_isSimStarted == false)
@@ -44,7 +64,6 @@ public class DayManager : MonoBehaviour
         {
             EndDay();
         }
-
     }
 
     public void BeginSim()
@@ -71,6 +90,7 @@ public class DayManager : MonoBehaviour
 
         m_isSimStarted = false;
         m_dayEnded = true;
+        m_dayCalculated = false;
 
         //Find twice cause the creatures reproduce between this
         LiveOrDie(GameObject.FindGameObjectsWithTag("Creature"));
@@ -187,5 +207,13 @@ public class DayManager : MonoBehaviour
 
         //Writing into a JSON file in Data folder. (this folder is in gitignore)
         File.WriteAllText(Application.dataPath + "/Data" + $"/Day_{m_dayCount}" + ".json", wrappedSpeciesArrayString);
+
+        m_dayCalculated = true;
+    }
+
+    bool onButtonPressToggleAutoRunSim()
+    {
+            if (m_autoStartDay) return false;
+            return true;
     }
 }
