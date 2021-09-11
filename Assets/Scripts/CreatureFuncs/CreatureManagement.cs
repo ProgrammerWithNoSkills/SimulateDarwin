@@ -166,6 +166,11 @@ public class CreatureManagement : MonoBehaviour
         this.m_geneticMoveSpeed = newMoveSpeed;
     }
 
+    public float GetGeneticMoveSpeed()
+    {
+        return this.m_geneticMoveSpeed;
+    }
+
     public void UpdateMoveSpeed(float newMoveSpeed)//update move speed
     {
         this.m_agent.speed = newMoveSpeed;
