@@ -146,15 +146,10 @@ public class DayManager : MonoBehaviour
         {
             CreatureManagement parentCreatureManagementComp = creature.GetComponent<CreatureManagement>();//get parent behaviour and genetics management component
 
-<<<<<<< Updated upstream
-            //Debug.Log(Mathf.Ceil(Mathf.Pow(2f, parentCreatureManagementComp.GetGeneticMoveSpeed() / 10)));
-            if (parentCreatureManagementComp.GetFoodcount() >= Mathf.Ceil(Mathf.Pow(2f, parentCreatureManagementComp.GetGeneticMoveSpeed() / 5)))//reproduce with exponential food requirement based on speed
-=======
             float growthLimit = parentCreatureManagementComp.GetGeneticMoveSpeed() / 10 * parentCreatureManagementComp.GetSightRange() / 10 * parentCreatureManagementComp.GetGeneticMass() / 10;
             Debug.Log(growthLimit);
 
             if (parentCreatureManagementComp.GetFoodcount() >= Mathf.Abs(Mathf.Ceil(2f * growthLimit)))//reproduce with exponential food requirement based on speed
->>>>>>> Stashed changes
             {
                 Vector3 spawnPos = new Vector3(0, 0, 0) + creature.transform.position;//place child to the side of parent NEED FIX TO OFFSET TOWARDS WORLD CENTER
                 GameObject newCreature = Instantiate(Spawning.m_Creature, spawnPos, Quaternion.identity);//instantiate child
