@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5752079996937574306}
   - component: {fileID: 5752079996937574309}
   - component: {fileID: 5752079996937574304}
-  - component: {fileID: 5470646945062554686}
   - component: {fileID: 7885984827679322913}
   m_Layer: 8
   m_Name: Creature
@@ -48,19 +47,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e648a5f7e9198144ea07e0bb3a2263c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_target: {fileID: 0}
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 64
-  whatIsFood:
-    serializedVersion: 2
-    m_Bits: 512
+  m_speciesID: 0
+  m_creatureID: 0
+  m_curFitness: 0
+  foodcount: 0
+  offspring: 0
   m_geneticMoveSpeed: 0
   m_geneticMass: 0
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointRange: 10
+  m_mutationRate: 0
   m_geneticSightRange: 0
-  targetInSightRange: 0
 --- !u!195 &5752079996937574309
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -99,22 +94,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
---- !u!114 &5470646945062554686
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5752079996937574305}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f37685ac98061a4d9ea13af80703218, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  foodcount: 0
-  offspring: 0
-  fitness: 0
-  curFitnessScore: 0
 --- !u!114 &7885984827679322913
 MonoBehaviour:
   m_ObjectHideFlags: 0

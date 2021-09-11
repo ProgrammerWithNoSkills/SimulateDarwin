@@ -73,7 +73,7 @@ public class DayManager : MonoBehaviour
         m_isSimStarted = true;
         m_dayEnded = false;
 
-        Spawning.SpawnFood(5);
+        Spawning.SpawnFood(80);
 
     }
 
@@ -109,19 +109,20 @@ public class DayManager : MonoBehaviour
     {
         foreach (GameObject creature in creatures)
         {
-            Fitness creatureFitness = creature.GetComponent<Fitness>();
+            CreatureManagement creatureManagementComp = creature.GetComponent<CreatureManagement>();
 
             //stop all movement
             Rigidbody m_rigidBody = creature.GetComponent<Rigidbody>();
             m_rigidBody.isKinematic = false; //turns off movement
             m_rigidBody.isKinematic = true; //turns on movement
 
-            if (creatureFitness.foodcount < 1)
+            if (creatureManagementComp.GetFoodcount() < 1)
             {
                 //Debug.Log($"I, {creature.GetComponent<SpeciesID>().UUID} die");
                 creature.GetComponent<DieAnim>().isDead = true;
                 continue;
             }
+            Debug.Log("LIVE OR DIE RAN");
         }
     }
 
@@ -131,9 +132,10 @@ public class DayManager : MonoBehaviour
 
         foreach (GameObject creature in creatures)
         {
-            Fitness creatureFitness = creature.GetComponent<Fitness>();
-            creatureFitness.curFitnessScore += creatureFitness.foodcount + creatureFitness.offspring;
-            creatureFitness.foodcount = 0;
+            CreatureManagement creatureManagementComp = creature.GetComponent<CreatureManagement>();
+            creatureManagementComp.m_curFitness += creatureManagementComp.GetFoodcount() + creatureManagementComp.GetOffspring();
+            creatureManagementComp.SetFoodcount(0);
+            Debug.Log("UPDATE FITNESS RAN");
         }
     }
    IEnumerator Reproduce(GameObject[] creatures)
@@ -142,15 +144,15 @@ public class DayManager : MonoBehaviour
 
         foreach (GameObject creature in creatures)
         {
-            Fitness creatureFitness = creature.GetComponent<Fitness>();
+            CreatureManagement parentCreatureManagementComp = creature.GetComponent<CreatureManagement>();//get parent behaviour and genetics management component
 
-            if (creatureFitness.foodcount > 1)
+
+            if (parentCreatureManagementComp.GetFoodcount() > 1)
             {
                 Vector3 spawnPos = new Vector3(0, 0, 0) + creature.transform.position;//place child to the side of parent NEED FIX TO OFFSET TOWARDS WORLD CENTER
                 GameObject newCreature = Instantiate(Spawning.m_Creature, spawnPos, Quaternion.identity);//instantiate child
 
-                CreatureManagement parentCreatureManagementComp = creature.GetComponent<CreatureManagement>();//get parent pathfinding ai component
-                CreatureManagement childCreatureManagementComp = newCreature.GetComponent<CreatureManagement>();//get child pathfinding ai component
+                CreatureManagement childCreatureManagementComp = newCreature.GetComponent<CreatureManagement>();//get child behaviour and genetics management component
 
                 MeshRenderer parentMeshRendererComp = creature.GetComponentInChildren(typeof(MeshRenderer)) as MeshRenderer;//get parent rendering component
                 MeshRenderer childMeshRendererComp = newCreature.GetComponentInChildren(typeof(MeshRenderer)) as MeshRenderer;//get child rendering component
@@ -187,8 +189,9 @@ public class DayManager : MonoBehaviour
                     );
                 /*----------------------------- End ----------------------------*/
 
-                creatureFitness.offspring++;
+                parentCreatureManagementComp.AddToOffspring(1);
             }
+            Debug.Log("REPRODUCE RAN");
         }
     }
     /*-------------------------------------*/
@@ -209,6 +212,7 @@ public class DayManager : MonoBehaviour
             //string wrappedJsonCreatureSpecies = $"\"{creature.GetInstanceID().ToString()}\" : "  + jsonCreatureSpecies;
 
             speciesList.Add(jsonCreatureSpecies);
+            Debug.Log("EXTRACT DATA RAN");
         }
 
         string speciesArrayString = string.Join(",\n", speciesList);

@@ -9,7 +9,8 @@ public class CreatureManagement : MonoBehaviour
 
     LayerMask whatIsGround, whatIsFood;
 
-    public int m_speciesID, m_creatureID;
+    public int m_speciesID, m_creatureID, m_curFitness;
+    private int foodcount, offspring;
 
     //genetics
     public float m_geneticMoveSpeed, m_geneticMass, m_mutationRate;
@@ -29,6 +30,9 @@ public class CreatureManagement : MonoBehaviour
         m_agent = GetComponent<NavMeshAgent>();
         m_speciesID = Random.Range(0, 2147483647);
         m_creatureID = this.gameObject.GetInstanceID();
+        m_curFitness = 0;
+        foodcount = 0;
+        offspring = 0;
         walkPointRange = 10f;
 
         //set layers
@@ -147,6 +151,16 @@ public class CreatureManagement : MonoBehaviour
         return null;
     }
 
+    /* ------------- Food and Fitness -------------*/
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Food")
+        {
+            this.foodcount++;
+        }
+    }
+
+    /*------------ Get Set methods ----------------*/
     public void SetMoveSpeed(float newMoveSpeed)//set genetic move speed
     {
         this.m_geneticMoveSpeed = newMoveSpeed;
@@ -186,5 +200,29 @@ public class CreatureManagement : MonoBehaviour
     {
         this.m_agent.angularSpeed = 0f;
         this.m_agent.speed = 0f;
+    }
+
+    public void AddToFoodcount(int foodcountDelta)
+    {
+        this.foodcount += foodcountDelta;
+    }
+
+    public void SetFoodcount(int newFoodcount)
+    {
+        this.foodcount = newFoodcount;
+    }
+
+    public int GetFoodcount()
+    {
+        return this.foodcount;
+    }
+
+    public void AddToOffspring(int offspringDelta)
+    {
+        this.offspring += offspringDelta;
+    }
+    public int GetOffspring()
+    {
+        return this.offspring;
     }
 }
