@@ -122,7 +122,7 @@ public class DayManager : MonoBehaviour
                 creature.GetComponent<DieAnim>().isDead = true;
                 continue;
             }
-            Debug.Log("LIVE OR DIE RAN");
+            //Debug.Log("LIVE OR DIE RAN");
         }
     }
 
@@ -135,7 +135,7 @@ public class DayManager : MonoBehaviour
             CreatureManagement creatureManagementComp = creature.GetComponent<CreatureManagement>();
             creatureManagementComp.m_curFitness += creatureManagementComp.GetFoodcount() + creatureManagementComp.GetOffspring();
             creatureManagementComp.SetFoodcount(0);
-            Debug.Log("UPDATE FITNESS RAN");
+            //Debug.Log("UPDATE FITNESS RAN");
         }
     }
    IEnumerator Reproduce(GameObject[] creatures)
@@ -191,7 +191,7 @@ public class DayManager : MonoBehaviour
 
                 parentCreatureManagementComp.AddToOffspring(1);
             }
-            Debug.Log("REPRODUCE RAN");
+            //Debug.Log("REPRODUCE RAN");
         }
     }
     /*-------------------------------------*/
@@ -212,7 +212,7 @@ public class DayManager : MonoBehaviour
             //string wrappedJsonCreatureSpecies = $"\"{creature.GetInstanceID().ToString()}\" : "  + jsonCreatureSpecies;
 
             speciesList.Add(jsonCreatureSpecies);
-            Debug.Log("EXTRACT DATA RAN");
+            //Debug.Log("EXTRACT DATA RAN");
         }
 
         string speciesArrayString = string.Join(",\n", speciesList);
