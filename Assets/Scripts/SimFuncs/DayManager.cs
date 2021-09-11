@@ -73,7 +73,7 @@ public class DayManager : MonoBehaviour
         m_isSimStarted = true;
         m_dayEnded = false;
 
-        Spawning.SpawnFood(80);
+        Spawning.SpawnFood(50);
 
     }
 
@@ -133,7 +133,7 @@ public class DayManager : MonoBehaviour
         foreach (GameObject creature in creatures)
         {
             CreatureManagement creatureManagementComp = creature.GetComponent<CreatureManagement>();
-            creatureManagementComp.m_curFitness += creatureManagementComp.GetFoodcount() + creatureManagementComp.GetOffspring();
+            creatureManagementComp.m_curFitness = creatureManagementComp.GetFoodcount() + creatureManagementComp.GetOffspring();
             creatureManagementComp.SetFoodcount(0);
             //Debug.Log("UPDATE FITNESS RAN");
         }
@@ -146,8 +146,15 @@ public class DayManager : MonoBehaviour
         {
             CreatureManagement parentCreatureManagementComp = creature.GetComponent<CreatureManagement>();//get parent behaviour and genetics management component
 
+<<<<<<< Updated upstream
             //Debug.Log(Mathf.Ceil(Mathf.Pow(2f, parentCreatureManagementComp.GetGeneticMoveSpeed() / 10)));
             if (parentCreatureManagementComp.GetFoodcount() >= Mathf.Ceil(Mathf.Pow(2f, parentCreatureManagementComp.GetGeneticMoveSpeed() / 5)))//reproduce with exponential food requirement based on speed
+=======
+            float growthLimit = parentCreatureManagementComp.GetGeneticMoveSpeed() / 10 * parentCreatureManagementComp.GetSightRange() / 10 * parentCreatureManagementComp.GetGeneticMass() / 10;
+            Debug.Log(growthLimit);
+
+            if (parentCreatureManagementComp.GetFoodcount() >= Mathf.Abs(Mathf.Ceil(2f * growthLimit)))//reproduce with exponential food requirement based on speed
+>>>>>>> Stashed changes
             {
                 Vector3 spawnPos = new Vector3(0, 0, 0) + creature.transform.position;//place child to the side of parent NEED FIX TO OFFSET TOWARDS WORLD CENTER
                 GameObject newCreature = Instantiate(Spawning.m_Creature, spawnPos, Quaternion.identity);//instantiate child
@@ -167,7 +174,7 @@ public class DayManager : MonoBehaviour
                 childCreatureManagementComp.SetMoveSpeed(tryInheritMoveSpeedValue);
 
                 //Set child sightrange to parent's sightrange plus mutation offset
-                childCreatureManagementComp.SetSigtRange(parentCreatureManagementComp.m_geneticSightRange += 
+                childCreatureManagementComp.SetSightRange(parentCreatureManagementComp.m_geneticSightRange += 
                     Random.Range(-2f * parentCreatureManagementComp.m_mutationRate, 2f * parentCreatureManagementComp.m_mutationRate));
 
                 //set child colour to parent colour

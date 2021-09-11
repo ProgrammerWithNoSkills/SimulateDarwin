@@ -176,9 +176,13 @@ public class CreatureManagement : MonoBehaviour
         this.m_agent.speed = newMoveSpeed;
     }
 
-    public void SetSigtRange(float newSightRange)
+    public void SetSightRange(float newSightRange)
     {
         this.m_geneticSightRange = newSightRange;
+    }
+    public float GetSightRange()
+    {
+        return this.m_geneticSightRange;
     }
 
     public void SetGeneticMass(float newGeneticMass)
