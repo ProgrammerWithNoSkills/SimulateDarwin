@@ -9,7 +9,7 @@ public class CreatureManagement : MonoBehaviour
 
     LayerMask whatIsGround, whatIsFood;
 
-    public int m_speciesID;
+    public int m_speciesID, m_creatureID;
 
     //genetics
     public float m_geneticMoveSpeed, m_geneticMass, m_mutationRate;
@@ -28,6 +28,7 @@ public class CreatureManagement : MonoBehaviour
     {
         m_agent = GetComponent<NavMeshAgent>();
         m_speciesID = Random.Range(0, 2147483647);
+        m_creatureID = this.gameObject.GetInstanceID();
         walkPointRange = 10f;
 
         //set layers

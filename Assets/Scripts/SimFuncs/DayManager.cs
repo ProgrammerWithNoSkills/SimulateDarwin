@@ -73,7 +73,7 @@ public class DayManager : MonoBehaviour
         m_isSimStarted = true;
         m_dayEnded = false;
 
-        Spawning.SpawnFood(60);
+        Spawning.SpawnFood(5);
 
     }
 
@@ -206,15 +206,15 @@ public class DayManager : MonoBehaviour
             string jsonCreatureSpecies = JsonUtility.ToJson(creatureManagementComp, true).ToString();
 
             //wrap values in creatureGameObjectUUID
-            string wrappedJsonCreatureSpecies = $"\"{creature.GetInstanceID().ToString()}\" : "  + jsonCreatureSpecies;
+            //string wrappedJsonCreatureSpecies = $"\"{creature.GetInstanceID().ToString()}\" : "  + jsonCreatureSpecies;
 
-            speciesList.Add(wrappedJsonCreatureSpecies);
+            speciesList.Add(jsonCreatureSpecies);
         }
 
         string speciesArrayString = string.Join(",\n", speciesList);
 
         //wrap data in Day and array to prime for writing
-        string wrappedSpeciesArrayString = "{\n" + $"\"Day_{m_dayCount}\"\n : " + "{\n" + speciesArrayString + "\n}" + "\n}";
+        string wrappedSpeciesArrayString = "{\n" + $"\"Day_{m_dayCount}\"\n : " + "[\n" + speciesArrayString + "\n]" + "\n}";
 
         //lint: cannot use FromJson. Can use FromJsonOverwrite but that would overwrite the values that have already changed so yeaahh
         //CreatureManagement prelintedSpeciesArrayString = JsonUtility.FromJson<CreatureManagement>(wrappedSpeciesArrayString);
