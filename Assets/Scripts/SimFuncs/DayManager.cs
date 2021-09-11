@@ -182,8 +182,8 @@ public class DayManager : MonoBehaviour
 
                 //inherit mutation rate from parent and mutate the mutation rate by multiplying it by itself!!!!!
                 childCreatureManagementComp.SetMutationRate(
-                    parentCreatureManagementComp.GetMutationRate() * 
-                    parentCreatureManagementComp.GetMutationRate()
+                    parentCreatureManagementComp.GetMutationRate() + 
+                    Random.Range(-1f * parentCreatureManagementComp.m_mutationRate, 1f * parentCreatureManagementComp.m_mutationRate)
                     );
                 /*----------------------------- End ----------------------------*/
 
