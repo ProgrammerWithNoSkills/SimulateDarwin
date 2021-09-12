@@ -146,7 +146,9 @@ public class DayManager : MonoBehaviour
         {
             CreatureManagement parentCreatureManagementComp = creature.GetComponent<CreatureManagement>();//get parent behaviour and genetics management component
 
-            float growthLimit = parentCreatureManagementComp.GetGeneticMoveSpeed() / 10 * parentCreatureManagementComp.GetSightRange() / 10 * parentCreatureManagementComp.GetGeneticMass() / 10;
+            float growthLimit = Mathf.Abs(parentCreatureManagementComp.GetGeneticMoveSpeed()* 
+                                          parentCreatureManagementComp.GetSightRange()* 
+                                          parentCreatureManagementComp.GetGeneticMass()/1000);
             Debug.Log(growthLimit);
 
             if (parentCreatureManagementComp.GetFoodcount() >= Mathf.Abs(Mathf.Ceil(2f * growthLimit)))//reproduce with exponential food requirement based on speed
