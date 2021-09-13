@@ -3,7 +3,10 @@
 import json, os
 from pathlib import Path
 
-days = 0 #change for number of days of data to combine
+days = 0 #change for number of days of data to combine\
+
+if not os.path.exists('./Assets/Data/Combined_Data/'):
+    os.makedirs('./Assets/Data/Combined_Data/')
 
 combinedDataFile = open("./Assets/Data/Combined_Data/" + "CombinedData.json", "w")
 combinedDataDict = {}
