@@ -73,7 +73,7 @@ public class DayManager : MonoBehaviour
         m_isSimStarted = true;
         m_dayEnded = false;
 
-        Spawning.SpawnFood(50);
+        Spawning.SpawnFood(10);
 
     }
 
