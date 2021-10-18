@@ -28,7 +28,7 @@ public class CreatureManagement : MonoBehaviour
     private void Awake()
     {
         m_agent = GetComponent<NavMeshAgent>();
-        m_speciesID = Random.Range(0, 2147483647);
+        m_speciesID = Random.Range(0, 2147483647); //overridden if child in DayManager.Reproduce()
         m_creatureID = this.gameObject.GetInstanceID();
         m_curFitness = 0;
         foodcount = 0;
@@ -40,10 +40,10 @@ public class CreatureManagement : MonoBehaviour
         whatIsGround = LayerMask.NameToLayer("whatIsGround");
         //init variables for first generation, need to randomise for variation and mutation.
         //randomise genetic values
-        m_geneticMass = 100f + Random.Range(-20f, 20f);
-        m_geneticMoveSpeed = 5f + Random.Range(-1f, 1f);
-        m_geneticSightRange = 8f + Random.Range(-1.5f, 1.5f);
-        m_mutationRate = 1f + Random.Range(-0.1f, 0.1f);
+        m_geneticMass = 100f /*+ Random.Range(-20f, 20f)*/;
+        m_geneticMoveSpeed = 5f /*+ Random.Range(-1f, 1f)*/;
+        m_geneticSightRange = 8f /*+ Random.Range(-1.5f, 1.5f)*/;
+        m_mutationRate = 1f /*+ Random.Range(-0.1f, 0.1f)*/;
     }
 
     private void FixedUpdate()
@@ -233,5 +233,15 @@ public class CreatureManagement : MonoBehaviour
     public int GetOffspring()
     {
         return this.offspring;
+    }
+
+    public void SetSpeciesID(int speciesID)
+    {
+        this.m_speciesID = speciesID;
+    }
+
+    public int GetSpeciesID()
+    {
+        return this.m_speciesID;
     }
 }

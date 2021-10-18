@@ -25,7 +25,7 @@ public class DayManager : MonoBehaviour
         m_autoStartDay = false;
         m_dayEnded = true;
         m_toggleAutoRunSimKey = "p";
-        m_timeSpeed = 5f;
+        m_timeSpeed = 1f;
     }
 
     private void Update()
@@ -73,7 +73,7 @@ public class DayManager : MonoBehaviour
         m_isSimStarted = true;
         m_dayEnded = false;
 
-        Spawning.SpawnFood(10);
+        Spawning.SpawnFood(60);
 
     }
 
@@ -148,10 +148,9 @@ public class DayManager : MonoBehaviour
 
             float growthLimit = Mathf.Abs(parentCreatureManagementComp.GetGeneticMoveSpeed()* 
                                           parentCreatureManagementComp.GetSightRange()* 
-                                          parentCreatureManagementComp.GetGeneticMass()/1000);
-            Debug.Log(growthLimit);
+                                          parentCreatureManagementComp.GetGeneticMass()/2000);
 
-            if (parentCreatureManagementComp.GetFoodcount() >= Mathf.Abs(Mathf.Ceil(2f * growthLimit)))//reproduce with exponential food requirement based on speed
+            if (parentCreatureManagementComp.GetFoodcount() >= 2/*Mathf.Abs(Mathf.Ceil(2f * growthLimit))*/)//reproduce with exponential food requirement based on speed
             {
                 Vector3 spawnPos = new Vector3(0, 0, 0) + creature.transform.position;//place child to the side of parent NEED FIX TO OFFSET TOWARDS WORLD CENTER
                 GameObject newCreature = Instantiate(Spawning.m_Creature, spawnPos, Quaternion.identity);//instantiate child
@@ -163,16 +162,16 @@ public class DayManager : MonoBehaviour
 
                 /*------------- Inherit Traits from Parent And Mutate -----------*/
                 //Set child movespeed to parent's move speed plus mutation offset
-                float tryInheritMoveSpeedValue =
-                    parentCreatureManagementComp.m_geneticMoveSpeed +=
-                    Random.Range(-1f * parentCreatureManagementComp.m_mutationRate, 1f * parentCreatureManagementComp.m_mutationRate);
+                float tryInheritMoveSpeedValue = parentCreatureManagementComp.m_geneticMoveSpeed;
+                    /*parentCreatureManagementComp.m_geneticMoveSpeed +=
+                    Random.Range(-1f * parentCreatureManagementComp.m_mutationRate, 1f * parentCreatureManagementComp.m_mutationRate);*/
                 //unrealistic, basically try to prevent move speed from going negative
-                if (tryInheritMoveSpeedValue < 5f) tryInheritMoveSpeedValue = 5f;
+                /*if (tryInheritMoveSpeedValue < 5f) tryInheritMoveSpeedValue = 5f;*/
                 childCreatureManagementComp.SetMoveSpeed(tryInheritMoveSpeedValue);
 
                 //Set child sightrange to parent's sightrange plus mutation offset
-                childCreatureManagementComp.SetSightRange(parentCreatureManagementComp.m_geneticSightRange += 
-                    Random.Range(-2f * parentCreatureManagementComp.m_mutationRate, 2f * parentCreatureManagementComp.m_mutationRate));
+                childCreatureManagementComp.SetSightRange(parentCreatureManagementComp.m_geneticSightRange /*+= 
+                    Random.Range(-2f * parentCreatureManagementComp.m_mutationRate, 2f * parentCreatureManagementComp.m_mutationRate)*/);
 
                 //set child colour to parent colour
                 if (parentMeshRendererComp != null && childMeshRendererComp != null)
@@ -191,6 +190,9 @@ public class DayManager : MonoBehaviour
                     parentCreatureManagementComp.GetMutationRate() + 
                     Random.Range(-1f * parentCreatureManagementComp.m_mutationRate, 1f * parentCreatureManagementComp.m_mutationRate)
                     );
+
+                //inherit species ID from parent
+                childCreatureManagementComp.SetSpeciesID(parentCreatureManagementComp.GetSpeciesID());
                 /*----------------------------- End ----------------------------*/
 
                 parentCreatureManagementComp.AddToOffspring(1);

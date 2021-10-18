@@ -25,7 +25,7 @@ public class DieAnim : MonoBehaviour
     //Simple death
     IEnumerator deathAnimationEz()
     {
-        yield return new WaitForSeconds(2f / DayManager.m_timeSpeed);
+        yield return new WaitForSeconds(1.6f / DayManager.m_timeSpeed);
 
         Destroy(this.gameObject);
     }

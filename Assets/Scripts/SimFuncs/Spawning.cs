@@ -21,10 +21,10 @@ public class Spawning : MonoBehaviour
         //test spawning
         if (m_Creature)
         {
-            SpawnAlongXLine(1, 25f, 25f);
-            SpawnAlongNegXLine(1, 25f, 25f);
-            SpawnAlongZLine(1, 25f, 25f);
-            SpawnAlongNegZLine(1, 25f, 25f);
+            SpawnAlongXLine(50, 25f, 25f);
+            SpawnAlongNegXLine(50, 25f, 25f);
+            SpawnAlongZLine(0, 25f, 25f);
+            SpawnAlongNegZLine(0, 25f, 25f);
         }
     }
 
@@ -69,7 +69,11 @@ public class Spawning : MonoBehaviour
         {
             Vector3 spawnLoc = new Vector3(xBound, 1f, Random.Range(-zBound, zBound));
 
-            Instantiate(m_Creature, spawnLoc, Quaternion.Euler(0, 0, 90));
+            GameObject creature = Instantiate(m_Creature, spawnLoc, Quaternion.Euler(0, 0, 90));
+            creature.GetComponentsInChildren<MeshRenderer>()[0].material.color = Color.red;
+            CreatureManagement creatureManagement = creature.GetComponent<CreatureManagement>();
+            creatureManagement.m_speciesID = 0001;
+            creatureManagement.m_geneticMoveSpeed = 5f;
         }
     }
     void SpawnAlongNegXLine(int numToSpawn, float xBound, float zBound)
@@ -78,7 +82,11 @@ public class Spawning : MonoBehaviour
         {
             Vector3 spawnLoc = new Vector3(-xBound, 1f, Random.Range(-zBound, zBound));
 
-            Instantiate(m_Creature, spawnLoc, Quaternion.Euler(0, 0, 90));
+            GameObject creature = Instantiate(m_Creature, spawnLoc, Quaternion.Euler(0, 0, 90));
+            creature.GetComponentsInChildren<MeshRenderer>()[0].material.color = Color.blue;
+            CreatureManagement creatureManagement = creature.GetComponent<CreatureManagement>();
+            creatureManagement.m_speciesID = 0002;
+            creatureManagement.m_geneticMoveSpeed = 5f;
         }
     }
     void SpawnAlongZLine(int numToSpawn, float xBound, float zBound)

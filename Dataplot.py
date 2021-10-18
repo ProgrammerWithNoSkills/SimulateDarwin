@@ -7,8 +7,8 @@ from numpy.polynomial.polynomial import polyfit
 import seaborn as sns
 
 #style
-sns.set(rc={'axes.facecolor':'slategrey',
-                'figure.facecolor':'slategrey'})
+sns.set(rc={'axes.facecolor':'silver',
+                'figure.facecolor':'silver'})
 #colours
 BCB_Blue = '#00F2FE'
 BCB_Green = '#02EF69'
@@ -31,27 +31,26 @@ zAxisData = [i[zAxis] for i in data['Day_5']]
 
 #prints to console for debug
 df = pd.DataFrame({ xAxis[2:]:xAxisData, yAxis[2:]:yAxisData})
-print(df.sort_values(by=yAxis[2:]))
+print(df)
+#print(df.sort_values(by=yAxis[2:]))
 
 #graph options
-ax1 = sns.regplot(x=xAxisData, y=yAxisData, data=data,
-                fit_reg=True, ci=95, truncate=True,
-                label=xAxis[2:], color=BCB_Blue)
+ax1 = plt.bar(xAxisData, yAxisData)
 
-ax2 = ax1.twiny()
+#ax2 = ax1.twiny()
 
-ax2 = sns.regplot(x=zAxisData, y=yAxisData, data=data,
-                fit_reg=True, ci=95, truncate=True,
-                marker="x", label=zAxis[2:], color=BCB_Green)
+#ax2 = sns.regplot(x=zAxisData, y=yAxisData, data=data,
+                #fit_reg=True, ci=95, truncate=True,
+                #marker="x", label=zAxis[2:], color=BCB_Green)
 
 #legend
-ax1.legend(loc=4)
-ax2.legend(loc=1)
+#ax1.legend(loc=1)
+#ax2.legend(loc=1)
 
 #axis and title
-ax1.set_xlabel(xAxis[2:])
-ax2.set_xlabel(zAxis[2:])
-plt.title('Best attribues', size=16, font='Verdana',
+#ax1.set_xlabel(xAxis[2:])
+#ax2.set_xlabel(zAxis[2:])
+plt.title('Day 25 Populations', size=16, font='Verdana',
           fontstyle='italic', weight='bold', c='black')
 
 
