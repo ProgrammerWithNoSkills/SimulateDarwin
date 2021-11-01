@@ -1,2 +1,2 @@
 # SimulateDarwin
-Natural selection in Unity
+Natural selection simulator in Unity
